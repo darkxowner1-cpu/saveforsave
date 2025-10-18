@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DarkX Status View</title>
+<style>
+    body {
+        margin: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #1f1c2c, #928dab);
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        text-align: center;
+    }
+    h1 {
+        font-size: 3rem;
+        margin-bottom: 50px;
+        text-shadow: 2px 2px 10px #000;
+    }
+    .btn {
+        background: #ff4b2b;
+        color: white;
+        padding: 15px 30px;
+        margin: 10px;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        font-size: 1.2rem;
+        transition: transform 0.2s, background 0.3s;
+    }
+    .btn:hover {
+        transform: scale(1.1);
+        background: #ff416c;
+    }
+</style>
+</head>
+<body>
+
+<h1>DarkX</h1>
+
+<button class="btn" onclick="saveAdmin()">💾 Save Admin First</button>
+<button class="btn" onclick="joinGroup()">👥 Join WhatsApp Group</button>
+
+<script>
+    function saveAdmin() {
+        // Namba ya admin
+        let adminNumber = "255775710774";
+        let message = encodeURIComponent("Hi Admin, I saved your number first!");
+        window.open(`https://wa.me/${adminNumber}?text=${message}`, "_blank");
+    }
+
+    function joinGroup() {
+        // Link ya group yako
+        let groupLink = "https://chat.whatsapp.com/LQinetqNbGl6aYknRw3LfX?mode=ems_copy_t";
+        window.open(groupLink, "_blank");
+    }
+</script>
+
+</body>
+  </html>
