@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DarkX Official - Status View</title>
 <style>
-    /* --- Global Styles and Dark Aesthetic ---
+    /* --- Global Styles and Dark Aesthetic (Mobile-Friendly) ---
     */
     body {
         margin: 0;
@@ -15,10 +15,16 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
-        height: 100vh;
+        /* Using min-height allows the page to scroll on small screens */
+        min-height: 100vh; 
         text-align: center;
-        padding: 20px;
+        padding: 40px 20px; /* Added more padding */
+    }
+
+    @media (min-height: 650px) {
+        body {
+            justify-content: center; /* Center content when there's enough space */
+        }
     }
 
     /* --- Header ---
@@ -39,7 +45,7 @@
         letter-spacing: 1px;
     }
 
-    /* --- New: Bot Connection Section (The "Something Big") ---
+    /* --- Bot Connection Section ---
     */
     .connect-banner {
         background: linear-gradient(45deg, #1c1a30, #2c2940);
@@ -55,7 +61,7 @@
     .connect-banner h2 {
         margin-top: 0;
         font-size: 1.8rem;
-        color: #79f1a4; /* Bright green for attention */
+        color: #79f1a4; /* Bright green accent */
         text-shadow: 0 0 5px rgba(121, 241, 164, 0.7);
     }
     
@@ -128,7 +134,7 @@
         line-height: 1;
     }
 
-    /* --- New: Footer/Admin Link ---
+    /* --- Footer/Admin Link ---
     */
     .admin-link {
         margin-top: 30px;
@@ -136,7 +142,7 @@
     }
     
     .admin-link a {
-        color: #79f1a4; /* Use the bright green accent color */
+        color: #79f1a4;
         text-decoration: none;
         padding-bottom: 2px;
         border-bottom: 1px solid #79f1a4;
@@ -164,6 +170,8 @@
 </div>
 
 <div class="button-container">
+    <button class="btn" onclick="openTutorial()"><span>🎬</span> Bot Deployment Tutorial</button>
+    
     <button class="btn" onclick="saveAdmin()"><span>💾</span> Save Admin First</button>
     <button class="btn" onclick="joinGroup()"><span>👥</span> Join WhatsApp Group</button>
     <button class="btn" onclick="openStickerPack()"><span>📦</span> Get Sticker Pack</button>
@@ -177,6 +185,12 @@
 
 
 <script>
+    // New function for the Bot Deployment Tutorial link
+    function openTutorial() {
+        let tutorialLink = "https://vm.tiktok.com/ZMA4ACrtW/";
+        window.open(tutorialLink, "_blank");
+    }
+
     function saveAdmin() {
         let adminNumber = "255775710774";
         let message = encodeURIComponent("Hellow DarkX, I saved your number Done!");
@@ -193,7 +207,6 @@
         window.open(stickerLink, "_blank");
     }
     
-    // New function for the Bot Connect link
     function openBotConnect() {
         let botLink = "https://bot-connect.emmyhenztech.space";
         window.open(botLink, "_blank");
