@@ -3,63 +3,125 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DarkX Status View</title>
+<title>DarkX Official - Status View</title>
 <style>
+    /* --- Global Styles and Dark Aesthetic ---
+    */
     body {
         margin: 0;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background: linear-gradient(135deg, #1f1c2c, #928dab);
-        color: #fff;
+        font-family: 'Poppins', sans-serif; /* Using a modern font */
+        background: #0d0c1d; /* Deep space-blue/purple background */
+        color: #e0e0e0;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         height: 100vh;
         text-align: center;
+        padding: 20px;
     }
+
+    /* Import a modern font (optional, requires linking in a real project) */
+    /* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;700&display=swap'); */
+
+    /* --- Header ---
+    */
     h1 {
-        font-size: 3rem;
-        margin-bottom: 50px;
-        text-shadow: 2px 2px 10px #000;
+        font-size: 3.5rem;
+        margin-bottom: 20px;
+        color: #f7f7f7;
+        font-weight: 700;
+        letter-spacing: 2px;
+        /* Sleek neon-like glow/shadow */
+        text-shadow: 0 0 5px #ff416c, 0 0 15px #ff416c, 0 0 30px #ff416c;
+        transition: all 0.5s ease;
     }
+    
+    .subtitle {
+        font-size: 1.1rem;
+        color: #928dab;
+        margin-bottom: 60px;
+        letter-spacing: 1px;
+    }
+
+    /* --- Button Container for Grouping ---
+    */
+    .button-container {
+        display: flex;
+        flex-direction: column; /* Stack buttons vertically */
+        gap: 20px; /* Space between buttons */
+        width: 90%; /* Max width on mobile */
+        max-width: 400px; /* Limit overall size */
+    }
+
+    /* --- Button Design ---
+    */
     .btn {
-        background: #ff4b2b;
+        /* Primary Brand Color: Vibrant Pink/Red */
+        background: linear-gradient(90deg, #ff416c, #ff4b2b); 
         color: white;
-        padding: 15px 30px;
-        margin: 10px;
+        padding: 18px 30px;
         border: none;
-        border-radius: 12px;
+        border-radius: 50px; /* Pill shape for a modern look */
         cursor: pointer;
-        font-size: 1.2rem;
-        transition: transform 0.2s, background 0.3s;
+        font-size: 1.1rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        /* Default box shadow for lift */
+        box-shadow: 0 5px 15px rgba(255, 65, 108, 0.4);
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
+    
     .btn:hover {
-        transform: scale(1.1);
-        background: #ff416c;
+        /* Subtle shift in gradient and a stronger shadow on hover */
+        background: linear-gradient(90deg, #ff4b2b, #ff416c);
+        transform: translateY(-3px) scale(1.02);
+        box-shadow: 0 10px 20px rgba(255, 65, 108, 0.6);
     }
+    
+    /* Icon styling within the button */
+    .btn span {
+        margin-right: 10px;
+        font-size: 1.4rem;
+        line-height: 1; /* Ensure icons align properly */
+    }
+
 </style>
 </head>
 <body>
 
-<h1>DarkX</h1>
+<h1>DarkX Official</h1>
+<p class="subtitle">Your source for exclusive content & community access.</p>
 
-<button class="btn" onclick="saveAdmin()">💾 Save Admin First</button>
-<button class="btn" onclick="joinGroup()">👥 Join WhatsApp Group</button>
+<div class="button-container">
+    <button class="btn" onclick="saveAdmin()"><span>💾</span> Save Admin First</button>
+    <button class="btn" onclick="joinGroup()"><span>👥</span> Join WhatsApp Group</button>
+    <button class="btn" onclick="openStickerPack()"><span>📦</span> Get Sticker Pack</button>
+</div>
 
 <script>
     function saveAdmin() {
-        // Namba ya admin
         let adminNumber = "255775710774";
         let message = encodeURIComponent("Hi Admin, I saved your number first!");
+        // The original logic is perfect
         window.open(`https://wa.me/${adminNumber}?text=${message}`, "_blank");
     }
 
     function joinGroup() {
-        // Link ya group yako
         let groupLink = "https://chat.whatsapp.com/LQinetqNbGl6aYknRw3LfX?mode=ems_copy_t";
         window.open(groupLink, "_blank");
+    }
+
+    function openStickerPack() {
+        let stickerLink = "https://wa.me/stickerpack/࿆𝑪𝒓𝒂ᷡ𝒉𝒔ᷪ☠️ꨪ𝒊𝑷𝒉𝒐ᷛ𝒏ᷢ𝒆࿆ᷳHtQ☠️😈꧂😈👽☠️❍_⃟⃧👽☠️_𝔇𝕖𝕧-DarkX-Official_☠️_⃟⃮⃯⃧😼😈_😈⃘⃟⃝_😈⃝⃟⃙_😈⃙⃝⃟_😈⃙⃝😈_😈⃝⃟_😈_⃜⃟⃝⃚😈⃝⃟_😈_⃝😈😈⃝😈_😈_⃝⃟😈⃝⃟_😈_⃝⃟😈😈_⃟⃝😈_⃝⃟😈⃝⃟_😈⃝⃟_☠️⃝⃟_☠️☠️⃝⃟_☠️⃝⃟_☠️⃜⃟⃝_☠️_☠️⃝⃟_DarkX-Official";
+        window.open(stickerLink, "_blank");
     }
 </script>
 
 </body>
-  </html>
+</html>
+
