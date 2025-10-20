@@ -4,114 +4,199 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DarkX Official - Status View</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-    /* --- Global Styles and Dark Aesthetic (Mobile-Friendly) ---
-    */
-    body {
+    /* --- Global Styles and Dark Aesthetic (Mobile-Friendly) --- */
+    :root {
+        --primary: #0d0c1d;
+        --secondary: #1c1a30;
+        --accent: #ff416c;
+        --accent2: #79f1a4;
+        --text: #e0e0e0;
+        --text-secondary: #928dab;
+        --card-bg: rgba(28, 26, 48, 0.7);
+        --card-border: rgba(93, 93, 129, 0.3);
+    }
+    
+    * {
+        box-sizing: border-box;
         margin: 0;
+        padding: 0;
+    }
+    
+    body {
         font-family: 'Poppins', sans-serif;
-        background: #0d0c1d;
-        color: #e0e0e0;
+        background: var(--primary);
+        color: var(--text);
+        min-height: 100vh;
         display: flex;
         flex-direction: column;
         align-items: center;
-        /* Using min-height allows the page to scroll on small screens */
-        min-height: 100vh; 
-        text-align: center;
-        padding: 40px 20px; /* Added more padding */
+        padding: 40px 20px;
+        background-image: 
+            radial-gradient(circle at 10% 20%, rgba(255, 65, 108, 0.1) 0%, transparent 20%),
+            radial-gradient(circle at 90% 80%, rgba(121, 241, 164, 0.1) 0%, transparent 20%);
     }
 
     @media (min-height: 650px) {
         body {
-            justify-content: center; /* Center content when there's enough space */
+            justify-content: center;
         }
     }
 
-    /* --- Header ---
-    */
+    /* --- Header --- */
+    .logo-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 15px;
+    }
+    
+    .logo {
+        font-size: 2.5rem;
+        margin-right: 15px;
+        text-shadow: 0 0 10px var(--accent);
+    }
+    
     h1 {
-        font-size: 3.5rem;
+        font-size: 3rem;
         margin-bottom: 5px;
         color: #f7f7f7;
         font-weight: 700;
         letter-spacing: 2px;
-        text-shadow: 0 0 5px #ff416c, 0 0 15px #ff416c, 0 0 30px #ff416c;
+        background: linear-gradient(90deg, var(--accent), var(--accent2));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 0 0 5px rgba(255, 65, 108, 0.3);
     }
     
     .subtitle {
         font-size: 1.1rem;
-        color: #928dab;
+        color: var(--text-secondary);
         margin-bottom: 30px;
         letter-spacing: 1px;
+        max-width: 500px;
+        line-height: 1.6;
     }
 
-    /* --- Bot Connection Section ---
-    */
+    /* --- Main Container --- */
+    .main-container {
+        width: 100%;
+        max-width: 800px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* --- Bot Connection Section --- */
     .connect-banner {
-        background: linear-gradient(45deg, #1c1a30, #2c2940);
-        border: 2px solid #5d5d81;
-        border-radius: 15px;
-        padding: 25px 20px;
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 20px;
+        padding: 30px 25px;
         margin-bottom: 35px;
-        width: 90%;
-        max-width: 450px;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        width: 100%;
+        max-width: 500px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .connect-banner::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 5px;
+        background: linear-gradient(90deg, var(--accent), var(--accent2));
     }
     
     .connect-banner h2 {
         margin-top: 0;
         font-size: 1.8rem;
-        color: #79f1a4; /* Bright green accent */
+        color: var(--accent2);
         text-shadow: 0 0 5px rgba(121, 241, 164, 0.7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 15px;
+    }
+    
+    .connect-banner h2 i {
+        margin-right: 10px;
+    }
+    
+    .connect-banner p {
+        color: #c9c9d8;
+        margin-bottom: 20px;
+        line-height: 1.6;
     }
     
     .connect-btn {
-        background: #79f1a4; /* Use the bright green */
-        color: #0d0c1d;
-        padding: 15px 30px;
+        background: linear-gradient(90deg, var(--accent2), #5cdb95);
+        color: var(--primary);
+        padding: 16px 35px;
         border: none;
         border-radius: 50px;
         cursor: pointer;
         font-size: 1.1rem;
         font-weight: 800;
         text-transform: uppercase;
-        margin-top: 15px;
+        margin-top: 10px;
         box-shadow: 0 4px 15px rgba(121, 241, 164, 0.5);
         transition: all 0.3s ease;
         display: inline-flex;
         align-items: center;
+        position: relative;
+        overflow: hidden;
     }
 
+    .connect-btn::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: 0.5s;
+    }
+    
     .connect-btn:hover {
-        background: #90ffb8;
-        transform: scale(1.05);
-        box-shadow: 0 6px 20px rgba(121, 241, 164, 0.8);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(121, 241, 164, 0.7);
+    }
+    
+    .connect-btn:hover::after {
+        left: 100%;
     }
     
     .connect-btn span {
         margin-right: 10px;
+        font-size: 1.2rem;
     }
 
-    /* --- Button Container for Grouping ---
-    */
+    /* --- Button Container for Grouping --- */
     .button-container {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-        width: 90%;
-        max-width: 400px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        width: 100%;
+        max-width: 800px;
+        margin-bottom: 30px;
     }
 
-    /* --- Main Buttons Design ---
-    */
+    /* --- Main Buttons Design --- */
     .btn {
-        background: linear-gradient(90deg, #ff416c, #ff4b2b); 
+        background: linear-gradient(90deg, var(--accent), #ff4b2b);
         color: white;
-        padding: 18px 30px;
+        padding: 18px 25px;
         border: none;
-        border-radius: 50px;
+        border-radius: 15px;
         cursor: pointer;
-        font-size: 1.0rem;
+        font-size: 1rem;
         font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 1px;
@@ -119,73 +204,202 @@
         transition: all 0.3s ease;
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-start;
+        position: relative;
+        overflow: hidden;
+        min-height: 80px;
+    }
+    
+    .btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, rgba(255, 255, 255, 0.1), transparent);
+        transform: translateX(-100%);
+        transition: transform 0.5s;
     }
     
     .btn:hover {
-        background: linear-gradient(90deg, #ff4b2b, #ff416c);
-        transform: translateY(-2px);
-        box-shadow: 0 8px 18px rgba(255, 65, 108, 0.6);
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(255, 65, 108, 0.6);
+    }
+    
+    .btn:hover::before {
+        transform: translateX(100%);
     }
     
     .btn span {
-        margin-right: 10px;
-        font-size: 1.3rem;
+        margin-right: 15px;
+        font-size: 1.8rem;
         line-height: 1;
+        z-index: 1;
+    }
+    
+    .btn-text {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        z-index: 1;
+    }
+    
+    .btn-main-text {
+        font-size: 1rem;
+        font-weight: 700;
+    }
+    
+    .btn-sub-text {
+        font-size: 0.8rem;
+        font-weight: 400;
+        opacity: 0.8;
+        margin-top: 5px;
     }
 
-    /* --- Footer/Admin Link ---
-    */
+    /* --- Footer/Admin Link --- */
     .admin-link {
         margin-top: 30px;
-        font-size: 0.9rem;
+        font-size: 1rem;
+        padding: 15px 25px;
+        background: var(--card-bg);
+        border-radius: 15px;
+        border: 1px solid var(--card-border);
+        backdrop-filter: blur(10px);
     }
     
     .admin-link a {
-        color: #79f1a4;
+        color: var(--accent2);
         text-decoration: none;
         padding-bottom: 2px;
-        border-bottom: 1px solid #79f1a4;
-        transition: color 0.3s, border-bottom 0.3s;
+        border-bottom: 1px solid var(--accent2);
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
     }
     
     .admin-link a:hover {
-        color: #ff416c;
-        border-bottom: 1px solid #ff416c;
+        color: var(--accent);
+        border-bottom: 1px solid var(--accent);
+    }
+    
+    .admin-link a i {
+        margin-right: 8px;
     }
 
+    /* --- Status Indicator --- */
+    .status-indicator {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+    }
+    
+    .status-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--accent2);
+        margin-right: 8px;
+        box-shadow: 0 0 10px var(--accent2);
+        animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+        0% { opacity: 1; }
+        50% { opacity: 0.5; }
+        100% { opacity: 1; }
+    }
+
+    /* --- Responsive Adjustments --- */
+    @media (max-width: 600px) {
+        h1 {
+            font-size: 2.2rem;
+        }
+        
+        .button-container {
+            grid-template-columns: 1fr;
+        }
+        
+        .btn {
+            justify-content: center;
+            text-align: center;
+        }
+        
+        .btn-text {
+            align-items: center;
+        }
+    }
 </style>
 </head>
 <body>
 
-<h1>DarkX Official</h1>
-<p class="subtitle">Your source for exclusive content & community access.</p>
-
-<div class="connect-banner">
-    <h2>🤖 Connect Your Bot FREE</h2>
-    <p style="color: #c9c9d8;">Click below to access our free bot connection service.</p>
-    <button class="connect-btn" onclick="openBotConnect()">
-        <span>🔗</span> START CONNECTION
-    </button>
-</div>
-
-<div class="button-container">
-    <button class="btn" onclick="openTutorial()"><span>🎬</span> Bot Deployment Tutorial</button>
+<div class="main-container">
+    <div class="logo-container">
+        <div class="logo">🕶️</div>
+        <h1>DarkX Official</h1>
+    </div>
     
-    <button class="btn" onclick="saveAdmin()"><span>💾</span> Save Admin First</button>
-    <button class="btn" onclick="joinGroup()"><span>👥</span> Join WhatsApp Group</button>
-    <button class="btn" onclick="openStickerPack()"><span>📦</span> Get Sticker Pack</button>
-</div>
+    <p class="subtitle">Your premium source for exclusive content, community access, and cutting-edge bot services.</p>
+    
+    <div class="status-indicator">
+        <div class="status-dot"></div>
+        <span>All systems operational</span>
+    </div>
 
-<div class="admin-link">
-    Contact The Owner: <a href="https://t.me/DarkX_oowner" target="_blank">
-        <span style="font-size: 1.2em;">✈️</span> @DarkX_oowner on Telegram
-    </a>
-</div>
+    <div class="connect-banner">
+        <h2><i class="fas fa-robot"></i> Connect Your Bot FREE</h2>
+        <p>Click below to access our free bot connection service with premium features and enhanced capabilities.</p>
+        <button class="connect-btn" onclick="openBotConnect()">
+            <span>🔗</span> START CONNECTION
+        </button>
+    </div>
 
+    <div class="button-container">
+        <button class="btn" onclick="openTutorial()">
+            <span>🎬</span>
+            <div class="btn-text">
+                <div class="btn-main-text">Deployment Tutorial</div>
+                <div class="btn-sub-text">Step-by-step guide</div>
+            </div>
+        </button>
+        
+        <button class="btn" onclick="saveAdmin()">
+            <span>💾</span>
+            <div class="btn-text">
+                <div class="btn-main-text">Save Admin</div>
+                <div class="btn-sub-text">Contact the developer</div>
+            </div>
+        </button>
+        
+        <button class="btn" onclick="joinGroup()">
+            <span>👥</span>
+            <div class="btn-text">
+                <div class="btn-main-text">Join Group</div>
+                <div class="btn-sub-text">Community access</div>
+            </div>
+        </button>
+        
+        <button class="btn" onclick="openStickerPack()">
+            <span>📦</span>
+            <div class="btn-text">
+                <div class="btn-main-text">Sticker Pack</div>
+                <div class="btn-sub-text">Exclusive designs</div>
+            </div>
+        </button>
+    </div>
+
+    <div class="admin-link">
+        Contact The Owner: 
+        <a href="https://t.me/DarkX_oowner" target="_blank">
+            <i class="fab fa-telegram-plane"></i> @DarkX_oowner on Telegram
+        </a>
+    </div>
+</div>
 
 <script>
-    // New function for the Bot Deployment Tutorial link
+    // Function for the Bot Deployment Tutorial link
     function openTutorial() {
         let tutorialLink = "https://vm.tiktok.com/ZMA4ACrtW/";
         window.open(tutorialLink, "_blank");
@@ -193,7 +407,7 @@
 
     function saveAdmin() {
         let adminNumber = "255775710774";
-        let message = encodeURIComponent("Hellow DarkX, I saved your number Done!");
+        let message = encodeURIComponent("Hello DarkX, I saved your number. Looking forward to connecting!");
         window.open(`https://wa.me/${adminNumber}?text=${message}`, "_blank");
     }
 
@@ -211,7 +425,22 @@
         let botLink = "https://bot-connect.emmyhenztech.space";
         window.open(botLink, "_blank");
     }
+    
+    // Add subtle animation to buttons on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        const buttons = document.querySelectorAll('.btn, .connect-btn');
+        buttons.forEach((button, index) => {
+            button.style.opacity = '0';
+            button.style.transform = 'translateY(20px)';
+            
+            setTimeout(() => {
+                button.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                button.style.opacity = '1';
+                button.style.transform = 'translateY(0)';
+            }, 100 * index);
+        });
+    });
 </script>
 
 </body>
-</html>
+    </html>
