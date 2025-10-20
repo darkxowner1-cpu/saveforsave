@@ -4,9 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DarkX Official - Status View</title>
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-    /* --- Global Styles and Dark Aesthetic (Mobile-Friendly) --- */
     :root {
         --primary: #0d0c1d;
         --secondary: #1c1a30;
@@ -38,13 +40,15 @@
             radial-gradient(circle at 90% 80%, rgba(121, 241, 164, 0.1) 0%, transparent 20%);
     }
 
-    @media (min-height: 650px) {
-        body {
-            justify-content: center;
-        }
+    .main-container {
+        width: 100%;
+        max-width: 800px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
-    /* --- Header --- */
+    /* Header */
     .logo-container {
         display: flex;
         align-items: center;
@@ -67,7 +71,6 @@
         background: linear-gradient(90deg, var(--accent), var(--accent2));
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        text-shadow: 0 0 5px rgba(255, 65, 108, 0.3);
     }
     
     .subtitle {
@@ -77,24 +80,137 @@
         letter-spacing: 1px;
         max-width: 500px;
         line-height: 1.6;
+        text-align: center;
     }
 
-    /* --- Main Container --- */
-    .main-container {
-        width: 100%;
-        max-width: 800px;
+    /* Visitor Counter */
+    .visitor-counter {
+        background: var(--card-bg);
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 25px;
+        border: 1px solid var(--card-border);
+        backdrop-filter: blur(10px);
         display: flex;
-        flex-direction: column;
+        justify-content: space-around;
         align-items: center;
+        width: 100%;
+        max-width: 500px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    }
+    
+    .counter-item {
+        text-align: center;
+    }
+    
+    .counter-number {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: var(--accent2);
+        text-shadow: 0 0 10px rgba(121, 241, 164, 0.5);
+    }
+    
+    .counter-label {
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        margin-top: 5px;
     }
 
-    /* --- Bot Connection Section --- */
+    /* Live Comments Section */
+    .comments-section {
+        background: var(--card-bg);
+        border-radius: 15px;
+        padding: 25px;
+        margin-bottom: 25px;
+        border: 1px solid var(--card-border);
+        backdrop-filter: blur(10px);
+        width: 100%;
+        max-width: 500px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    }
+    
+    .comments-section h3 {
+        color: var(--accent);
+        margin-bottom: 20px;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .comments-section h3 i {
+        margin-right: 10px;
+    }
+    
+    .comment-form {
+        display: flex;
+        margin-bottom: 20px;
+        gap: 10px;
+    }
+    
+    .comment-input {
+        flex: 1;
+        padding: 12px 15px;
+        border: 1px solid var(--card-border);
+        border-radius: 10px;
+        background: rgba(13, 12, 29, 0.6);
+        color: var(--text);
+        font-family: 'Poppins', sans-serif;
+    }
+    
+    .comment-input::placeholder {
+        color: var(--text-secondary);
+    }
+    
+    .submit-comment {
+        background: var(--accent);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        padding: 12px 20px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+    
+    .submit-comment:hover {
+        background: #ff2b5a;
+        transform: translateY(-2px);
+    }
+    
+    .comments-list {
+        max-height: 300px;
+        overflow-y: auto;
+        padding-right: 10px;
+    }
+    
+    .comment-item {
+        background: rgba(13, 12, 29, 0.4);
+        padding: 15px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        border-left: 3px solid var(--accent);
+    }
+    
+    .comment-text {
+        color: var(--text);
+        margin-bottom: 5px;
+        line-height: 1.4;
+    }
+    
+    .comment-time {
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+        text-align: right;
+    }
+
+    /* Buttons */
     .connect-banner {
         background: var(--card-bg);
         border: 1px solid var(--card-border);
         border-radius: 20px;
         padding: 30px 25px;
-        margin-bottom: 35px;
+        margin-bottom: 25px;
         width: 100%;
         max-width: 500px;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
@@ -117,21 +233,10 @@
         margin-top: 0;
         font-size: 1.8rem;
         color: var(--accent2);
-        text-shadow: 0 0 5px rgba(121, 241, 164, 0.7);
         display: flex;
         align-items: center;
         justify-content: center;
         margin-bottom: 15px;
-    }
-    
-    .connect-banner h2 i {
-        margin-right: 10px;
-    }
-    
-    .connect-banner p {
-        color: #c9c9d8;
-        margin-bottom: 20px;
-        line-height: 1.6;
     }
     
     .connect-btn {
@@ -149,36 +254,13 @@
         transition: all 0.3s ease;
         display: inline-flex;
         align-items: center;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .connect-btn::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-        transition: 0.5s;
     }
     
     .connect-btn:hover {
         transform: translateY(-3px);
         box-shadow: 0 8px 20px rgba(121, 241, 164, 0.7);
     }
-    
-    .connect-btn:hover::after {
-        left: 100%;
-    }
-    
-    .connect-btn span {
-        margin-right: 10px;
-        font-size: 1.2rem;
-    }
 
-    /* --- Button Container for Grouping --- */
     .button-container {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -188,7 +270,6 @@
         margin-bottom: 30px;
     }
 
-    /* --- Main Buttons Design --- */
     .btn {
         background: linear-gradient(90deg, var(--accent), #ff4b2b);
         color: white;
@@ -205,21 +286,7 @@
         display: flex;
         align-items: center;
         justify-content: flex-start;
-        position: relative;
-        overflow: hidden;
         min-height: 80px;
-    }
-    
-    .btn::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, rgba(255, 255, 255, 0.1), transparent);
-        transform: translateX(-100%);
-        transition: transform 0.5s;
     }
     
     .btn:hover {
@@ -227,22 +294,15 @@
         box-shadow: 0 10px 20px rgba(255, 65, 108, 0.6);
     }
     
-    .btn:hover::before {
-        transform: translateX(100%);
-    }
-    
     .btn span {
         margin-right: 15px;
         font-size: 1.8rem;
-        line-height: 1;
-        z-index: 1;
     }
     
     .btn-text {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        z-index: 1;
     }
     
     .btn-main-text {
@@ -257,7 +317,7 @@
         margin-top: 5px;
     }
 
-    /* --- Footer/Admin Link --- */
+    /* Footer */
     .admin-link {
         margin-top: 30px;
         font-size: 1rem;
@@ -282,37 +342,8 @@
         color: var(--accent);
         border-bottom: 1px solid var(--accent);
     }
-    
-    .admin-link a i {
-        margin-right: 8px;
-    }
 
-    /* --- Status Indicator --- */
-    .status-indicator {
-        display: flex;
-        align-items: center;
-        margin-bottom: 20px;
-        font-size: 0.9rem;
-        color: var(--text-secondary);
-    }
-    
-    .status-dot {
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        background: var(--accent2);
-        margin-right: 8px;
-        box-shadow: 0 0 10px var(--accent2);
-        animation: pulse 2s infinite;
-    }
-    
-    @keyframes pulse {
-        0% { opacity: 1; }
-        50% { opacity: 0.5; }
-        100% { opacity: 1; }
-    }
-
-    /* --- Responsive Adjustments --- */
+    /* Responsive */
     @media (max-width: 600px) {
         h1 {
             font-size: 2.2rem;
@@ -322,13 +353,13 @@
             grid-template-columns: 1fr;
         }
         
-        .btn {
-            justify-content: center;
-            text-align: center;
+        .visitor-counter {
+            flex-direction: column;
+            gap: 20px;
         }
         
-        .btn-text {
-            align-items: center;
+        .comment-form {
+            flex-direction: column;
         }
     }
 </style>
@@ -342,12 +373,32 @@
     </div>
     
     <p class="subtitle">Your premium source for exclusive content, community access, and cutting-edge bot services.</p>
-    
-    <div class="status-indicator">
-        <div class="status-dot"></div>
-        <span>All systems operational</span>
+
+    <!-- VISITOR COUNTER -->
+    <div class="visitor-counter">
+        <div class="counter-item">
+            <div class="counter-number" id="totalVisitors">0</div>
+            <div class="counter-label">Total Visitors</div>
+        </div>
+        <div class="counter-item">
+            <div class="counter-number" id="onlineNow">0</div>
+            <div class="counter-label">Online Now</div>
+        </div>
     </div>
 
+    <!-- LIVE COMMENTS SECTION -->
+    <div class="comments-section">
+        <h3><i class="fas fa-comments"></i> Live Comments</h3>
+        <div class="comment-form">
+            <input type="text" class="comment-input" id="commentInput" placeholder="Share your thoughts...">
+            <button class="submit-comment" onclick="addComment()">Post</button>
+        </div>
+        <div class="comments-list" id="commentsList">
+            <!-- Comments will appear here -->
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
     <div class="connect-banner">
         <h2><i class="fas fa-robot"></i> Connect Your Bot FREE</h2>
         <p>Click below to access our free bot connection service with premium features and enhanced capabilities.</p>
@@ -399,10 +450,102 @@
 </div>
 
 <script>
-    // Function for the Bot Deployment Tutorial link
+    // FIREBASE CONFIG - USE YOUR CREDENTIALS
+    const firebaseConfig = {
+        apiKey: "AIzaSyCFxCtw6woi6rU8LGUfKQY4DjPp2AjGgDU",
+        authDomain: "darkx-ceaee.firebaseapp.com",
+        databaseURL: "https://darkx-ceaee-default-rtdb.firebaseio.com",
+        projectId: "darkx-ceaee",
+        storageBucket: "darkx-ceaee.firebasestorage.app",
+        messagingSenderId: "1039726471341",
+        appId: "1:1039726471341:web:167094049ccc26ee52be24"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+
+    // VISITOR COUNTER
+    function updateVisitorCounter() {
+        const visitorRef = database.ref('visitors');
+        
+        // Update total visitors
+        visitorRef.child('total').transaction((currentTotal) => {
+            return (currentTotal || 0) + 1;
+        });
+        
+        // Update online now (resets after 5 minutes)
+        const userSessionId = Date.now().toString();
+        const onlineRef = database.ref('online/' + userSessionId);
+        onlineRef.set({
+            timestamp: Date.now(),
+            userAgent: navigator.userAgent
+        });
+        
+        // Remove old online users (5 minutes)
+        setTimeout(() => {
+            onlineRef.remove();
+        }, 5 * 60 * 1000);
+        
+        // Listen for changes
+        visitorRef.child('total').on('value', (snapshot) => {
+            const total = snapshot.val() || 0;
+            document.getElementById('totalVisitors').textContent = total.toLocaleString();
+        });
+        
+        database.ref('online').on('value', (snapshot) => {
+            const onlineCount = snapshot.numChildren();
+            document.getElementById('onlineNow').textContent = onlineCount;
+        });
+    }
+
+    // LIVE COMMENTS
+    function addComment() {
+        const commentInput = document.getElementById('commentInput');
+        const commentText = commentInput.value.trim();
+        
+        if (commentText === '') return;
+        
+        const comment = {
+            text: commentText,
+            timestamp: Date.now(),
+            time: new Date().toLocaleTimeString()
+        };
+        
+        database.ref('comments').push(comment);
+        commentInput.value = '';
+    }
+
+    // Load existing comments
+    database.ref('comments').orderByChild('timestamp').limitToLast(20).on('value', (snapshot) => {
+        const commentsList = document.getElementById('commentsList');
+        commentsList.innerHTML = '';
+        
+        const comments = [];
+        snapshot.forEach((childSnapshot) => {
+            comments.push({
+                id: childSnapshot.key,
+                ...childSnapshot.val()
+            });
+        });
+        
+        // Sort by timestamp (newest first)
+        comments.sort((a, b) => b.timestamp - a.timestamp);
+        
+        comments.forEach((comment) => {
+            const commentElement = document.createElement('div');
+            commentElement.className = 'comment-item';
+            commentElement.innerHTML = `
+                <div class="comment-text">${comment.text}</div>
+                <div class="comment-time">${comment.time}</div>
+            `;
+            commentsList.appendChild(commentElement);
+        });
+    });
+
+    // Original functions
     function openTutorial() {
-        let tutorialLink = "https://vm.tiktok.com/ZMA4ACrtW/";
-        window.open(tutorialLink, "_blank");
+        window.open("https://vm.tiktok.com/ZMA4ACrtW/", "_blank");
     }
 
     function saveAdmin() {
@@ -425,20 +568,10 @@
         let botLink = "https://bot-connect.emmyhenztech.space";
         window.open(botLink, "_blank");
     }
-    
-    // Add subtle animation to buttons on page load
+
+    // Initialize when page loads
     document.addEventListener('DOMContentLoaded', function() {
-        const buttons = document.querySelectorAll('.btn, .connect-btn');
-        buttons.forEach((button, index) => {
-            button.style.opacity = '0';
-            button.style.transform = 'translateY(20px)';
-            
-            setTimeout(() => {
-                button.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-                button.style.opacity = '1';
-                button.style.transform = 'translateY(0)';
-            }, 100 * index);
-        });
+        updateVisitorCounter();
     });
 </script>
 
