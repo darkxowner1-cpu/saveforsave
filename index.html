@@ -1,579 +1,226 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DarkX Official - Status View</title>
-<!-- Firebase -->
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<style>
-    :root {
-        --primary: #0d0c1d;
-        --secondary: #1c1a30;
-        --accent: #ff416c;
-        --accent2: #79f1a4;
-        --text: #e0e0e0;
-        --text-secondary: #928dab;
-        --card-bg: rgba(28, 26, 48, 0.7);
-        --card-border: rgba(93, 93, 129, 0.3);
-    }
-    
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-    }
-    
-    body {
-        font-family: 'Poppins', sans-serif;
-        background: var(--primary);
-        color: var(--text);
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 40px 20px;
-        background-image: 
-            radial-gradient(circle at 10% 20%, rgba(255, 65, 108, 0.1) 0%, transparent 20%),
-            radial-gradient(circle at 90% 80%, rgba(121, 241, 164, 0.1) 0%, transparent 20%);
-    }
-
-    .main-container {
-        width: 100%;
-        max-width: 800px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    /* Header */
-    .logo-container {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 15px;
-    }
-    
-    .logo {
-        font-size: 2.5rem;
-        margin-right: 15px;
-        text-shadow: 0 0 10px var(--accent);
-    }
-    
-    h1 {
-        font-size: 3rem;
-        margin-bottom: 5px;
-        color: #f7f7f7;
-        font-weight: 700;
-        letter-spacing: 2px;
-        background: linear-gradient(90deg, var(--accent), var(--accent2));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-    }
-    
-    .subtitle {
-        font-size: 1.1rem;
-        color: var(--text-secondary);
-        margin-bottom: 30px;
-        letter-spacing: 1px;
-        max-width: 500px;
-        line-height: 1.6;
-        text-align: center;
-    }
-
-    /* Visitor Counter */
-    .visitor-counter {
-        background: var(--card-bg);
-        border-radius: 15px;
-        padding: 20px;
-        margin-bottom: 25px;
-        border: 1px solid var(--card-border);
-        backdrop-filter: blur(10px);
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        width: 100%;
-        max-width: 500px;
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-    }
-    
-    .counter-item {
-        text-align: center;
-    }
-    
-    .counter-number {
-        font-size: 2.5rem;
-        font-weight: 800;
-        color: var(--accent2);
-        text-shadow: 0 0 10px rgba(121, 241, 164, 0.5);
-    }
-    
-    .counter-label {
-        font-size: 0.9rem;
-        color: var(--text-secondary);
-        margin-top: 5px;
-    }
-
-    /* Live Comments Section */
-    .comments-section {
-        background: var(--card-bg);
-        border-radius: 15px;
-        padding: 25px;
-        margin-bottom: 25px;
-        border: 1px solid var(--card-border);
-        backdrop-filter: blur(10px);
-        width: 100%;
-        max-width: 500px;
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-    }
-    
-    .comments-section h3 {
-        color: var(--accent);
-        margin-bottom: 20px;
-        text-align: center;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    
-    .comments-section h3 i {
-        margin-right: 10px;
-    }
-    
-    .comment-form {
-        display: flex;
-        margin-bottom: 20px;
-        gap: 10px;
-    }
-    
-    .comment-input {
-        flex: 1;
-        padding: 12px 15px;
-        border: 1px solid var(--card-border);
-        border-radius: 10px;
-        background: rgba(13, 12, 29, 0.6);
-        color: var(--text);
-        font-family: 'Poppins', sans-serif;
-    }
-    
-    .comment-input::placeholder {
-        color: var(--text-secondary);
-    }
-    
-    .submit-comment {
-        background: var(--accent);
-        color: white;
-        border: none;
-        border-radius: 10px;
-        padding: 12px 20px;
-        cursor: pointer;
-        font-weight: 600;
-        transition: all 0.3s ease;
-    }
-    
-    .submit-comment:hover {
-        background: #ff2b5a;
-        transform: translateY(-2px);
-    }
-    
-    .comments-list {
-        max-height: 300px;
-        overflow-y: auto;
-        padding-right: 10px;
-    }
-    
-    .comment-item {
-        background: rgba(13, 12, 29, 0.4);
-        padding: 15px;
-        border-radius: 10px;
-        margin-bottom: 10px;
-        border-left: 3px solid var(--accent);
-    }
-    
-    .comment-text {
-        color: var(--text);
-        margin-bottom: 5px;
-        line-height: 1.4;
-    }
-    
-    .comment-time {
-        font-size: 0.8rem;
-        color: var(--text-secondary);
-        text-align: right;
-    }
-
-    /* Buttons */
-    .connect-banner {
-        background: var(--card-bg);
-        border: 1px solid var(--card-border);
-        border-radius: 20px;
-        padding: 30px 25px;
-        margin-bottom: 25px;
-        width: 100%;
-        max-width: 500px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-        backdrop-filter: blur(10px);
-        position: relative;
-        overflow: hidden;
-    }
-    
-    .connect-banner::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 5px;
-        background: linear-gradient(90deg, var(--accent), var(--accent2));
-    }
-    
-    .connect-banner h2 {
-        margin-top: 0;
-        font-size: 1.8rem;
-        color: var(--accent2);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 15px;
-    }
-    
-    .connect-btn {
-        background: linear-gradient(90deg, var(--accent2), #5cdb95);
-        color: var(--primary);
-        padding: 16px 35px;
-        border: none;
-        border-radius: 50px;
-        cursor: pointer;
-        font-size: 1.1rem;
-        font-weight: 800;
-        text-transform: uppercase;
-        margin-top: 10px;
-        box-shadow: 0 4px 15px rgba(121, 241, 164, 0.5);
-        transition: all 0.3s ease;
-        display: inline-flex;
-        align-items: center;
-    }
-    
-    .connect-btn:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 8px 20px rgba(121, 241, 164, 0.7);
-    }
-
-    .button-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 20px;
-        width: 100%;
-        max-width: 800px;
-        margin-bottom: 30px;
-    }
-
-    .btn {
-        background: linear-gradient(90deg, var(--accent), #ff4b2b);
-        color: white;
-        padding: 18px 25px;
-        border: none;
-        border-radius: 15px;
-        cursor: pointer;
-        font-size: 1rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        box-shadow: 0 5px 15px rgba(255, 65, 108, 0.4);
-        transition: all 0.3s ease;
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        min-height: 80px;
-    }
-    
-    .btn:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(255, 65, 108, 0.6);
-    }
-    
-    .btn span {
-        margin-right: 15px;
-        font-size: 1.8rem;
-    }
-    
-    .btn-text {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    
-    .btn-main-text {
-        font-size: 1rem;
-        font-weight: 700;
-    }
-    
-    .btn-sub-text {
-        font-size: 0.8rem;
-        font-weight: 400;
-        opacity: 0.8;
-        margin-top: 5px;
-    }
-
-    /* Footer */
-    .admin-link {
-        margin-top: 30px;
-        font-size: 1rem;
-        padding: 15px 25px;
-        background: var(--card-bg);
-        border-radius: 15px;
-        border: 1px solid var(--card-border);
-        backdrop-filter: blur(10px);
-    }
-    
-    .admin-link a {
-        color: var(--accent2);
-        text-decoration: none;
-        padding-bottom: 2px;
-        border-bottom: 1px solid var(--accent2);
-        transition: all 0.3s;
-        display: flex;
-        align-items: center;
-    }
-    
-    .admin-link a:hover {
-        color: var(--accent);
-        border-bottom: 1px solid var(--accent);
-    }
-
-    /* Responsive */
-    @media (max-width: 600px) {
-        h1 {
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DarkX Official Code Fixture</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0c0c0c, #1a1a2e);
+            color: #e0e0e0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: rgba(20, 20, 30, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            border: 1px solid #333;
+        }
+        
+        .header {
+            background: linear-gradient(90deg, #2a2a4a, #1a1a2e);
+            padding: 20px;
+            text-align: center;
+            border-bottom: 2px solid #444;
+        }
+        
+        .header h1 {
             font-size: 2.2rem;
+            margin-bottom: 5px;
+            color: #6c63ff;
+            text-shadow: 0 0 10px rgba(108, 99, 255, 0.5);
         }
         
-        .button-container {
-            grid-template-columns: 1fr;
+        .header p {
+            font-size: 1rem;
+            color: #aaa;
         }
         
-        .visitor-counter {
-            flex-direction: column;
-            gap: 20px;
+        .content {
+            padding: 30px;
         }
         
-        .comment-form {
-            flex-direction: column;
+        .code-input {
+            width: 100%;
+            height: 150px;
+            background: #111;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 15px;
+            color: #e0e0e0;
+            font-size: 16px;
+            resize: none;
+            margin-bottom: 20px;
+            transition: all 0.3s;
         }
-    }
-</style>
+        
+        .code-input:focus {
+            outline: none;
+            border-color: #6c63ff;
+            box-shadow: 0 0 10px rgba(108, 99, 255, 0.3);
+        }
+        
+        .button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(90deg, #6c63ff, #4a44b5);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .button:hover {
+            background: linear-gradient(90deg, #5a52d4, #3a3490);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(108, 99, 255, 0.4);
+        }
+        
+        .button:active {
+            transform: translateY(0);
+        }
+        
+        .message {
+            background: rgba(30, 30, 46, 0.8);
+            border-left: 4px solid #6c63ff;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .message h3 {
+            color: #6c63ff;
+            margin-bottom: 10px;
+        }
+        
+        .ok-button {
+            background: linear-gradient(90deg, #ff6b6b, #ee5a52);
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .ok-button:hover {
+            background: linear-gradient(90deg, #ee5a52, #cc4a43);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 15px;
+            color: #666;
+            font-size: 0.9rem;
+            border-top: 1px solid #333;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .terminal {
+            background: #111;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+            border: 1px solid #333;
+            font-family: monospace;
+            font-size: 14px;
+            color: #0f0;
+            display: none;
+        }
+        
+        .blink {
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+    </style>
 </head>
 <body>
-
-<div class="main-container">
-    <div class="logo-container">
-        <div class="logo">🕶️</div>
-        <h1>DarkX Official</h1>
-    </div>
-    
-    <p class="subtitle">Your premium source for exclusive content, community access, and cutting-edge bot services.</p>
-
-    <!-- VISITOR COUNTER -->
-    <div class="visitor-counter">
-        <div class="counter-item">
-            <div class="counter-number" id="totalVisitors">0</div>
-            <div class="counter-label">Total Visitors</div>
+    <div class="container">
+        <div class="header">
+            <h1>DarkX Official</h1>
+            <p>Code Fixture - Enter your code for analysis</p>
         </div>
-        <div class="counter-item">
-            <div class="counter-number" id="onlineNow">0</div>
-            <div class="counter-label">Online Now</div>
+        
+        <div class="content">
+            <textarea class="code-input" placeholder="Enter your code here..."></textarea>
+            
+            <button class="button" id="fixButton">Fix My Code</button>
+            
+            <div class="message" id="message">
+                <h3>Analysis Complete</h3>
+                <p>Our advanced AI has detected that your code requires specialized assistance.</p>
+                <p>Please proceed to ChatGPT for further optimization. 😂</p>
+            </div>
+            
+            <button class="button ok-button" id="okButton">Ok</button>
+            
+            <div class="terminal" id="terminal">
+                <div>> Analyzing code structure...</div>
+                <div>> Detecting syntax errors...</div>
+                <div>> Running optimization algorithms...</div>
+                <div>> <span class="blink">_</span></div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            DarkX Official &copy; 2023 | Code Fixture v1.0
         </div>
     </div>
 
-    <!-- LIVE COMMENTS SECTION -->
-    <div class="comments-section">
-        <h3><i class="fas fa-comments"></i> Live Comments</h3>
-        <div class="comment-form">
-            <input type="text" class="comment-input" id="commentInput" placeholder="Share your thoughts...">
-            <button class="submit-comment" onclick="addComment()">Post</button>
-        </div>
-        <div class="comments-list" id="commentsList">
-            <!-- Comments will appear here -->
-        </div>
-    </div>
-
-    <!-- MAIN CONTENT -->
-    <div class="connect-banner">
-        <h2><i class="fas fa-robot"></i> Connect Your Bot FREE</h2>
-        <p>Click below to access our free bot connection service with premium features and enhanced capabilities.</p>
-        <button class="connect-btn" onclick="openBotConnect()">
-            <span>🔗</span> START CONNECTION
-        </button>
-    </div>
-
-    <div class="button-container">
-        <button class="btn" onclick="openTutorial()">
-            <span>🎬</span>
-            <div class="btn-text">
-                <div class="btn-main-text">Deployment Tutorial</div>
-                <div class="btn-sub-text">Step-by-step guide</div>
-            </div>
-        </button>
-        
-        <button class="btn" onclick="saveAdmin()">
-            <span>💾</span>
-            <div class="btn-text">
-                <div class="btn-main-text">Save Admin</div>
-                <div class="btn-sub-text">Contact the developer</div>
-            </div>
-        </button>
-        
-        <button class="btn" onclick="joinGroup()">
-            <span>👥</span>
-            <div class="btn-text">
-                <div class="btn-main-text">Join Group</div>
-                <div class="btn-sub-text">Community access</div>
-            </div>
-        </button>
-        
-        <button class="btn" onclick="openStickerPack()">
-            <span>📦</span>
-            <div class="btn-text">
-                <div class="btn-main-text">Sticker Pack</div>
-                <div class="btn-sub-text">Exclusive designs</div>
-            </div>
-        </button>
-    </div>
-
-    <div class="admin-link">
-        Contact The Owner: 
-        <a href="https://t.me/DarkX_oowner" target="_blank">
-            <i class="fab fa-telegram-plane"></i> @DarkX_oowner on Telegram
-        </a>
-    </div>
-</div>
-
-<script>
-    // FIREBASE CONFIG - USE YOUR CREDENTIALS
-    const firebaseConfig = {
-        apiKey: "AIzaSyCFxCtw6woi6rU8LGUfKQY4DjPp2AjGgDU",
-        authDomain: "darkx-ceaee.firebaseapp.com",
-        databaseURL: "https://darkx-ceaee-default-rtdb.firebaseio.com",
-        projectId: "darkx-ceaee",
-        storageBucket: "darkx-ceaee.firebasestorage.app",
-        messagingSenderId: "1039726471341",
-        appId: "1:1039726471341:web:167094049ccc26ee52be24"
-    };
-
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
-    const database = firebase.database();
-
-    // VISITOR COUNTER
-    function updateVisitorCounter() {
-        const visitorRef = database.ref('visitors');
-        
-        // Update total visitors
-        visitorRef.child('total').transaction((currentTotal) => {
-            return (currentTotal || 0) + 1;
-        });
-        
-        // Update online now (resets after 5 minutes)
-        const userSessionId = Date.now().toString();
-        const onlineRef = database.ref('online/' + userSessionId);
-        onlineRef.set({
-            timestamp: Date.now(),
-            userAgent: navigator.userAgent
-        });
-        
-        // Remove old online users (5 minutes)
-        setTimeout(() => {
-            onlineRef.remove();
-        }, 5 * 60 * 1000);
-        
-        // Listen for changes
-        visitorRef.child('total').on('value', (snapshot) => {
-            const total = snapshot.val() || 0;
-            document.getElementById('totalVisitors').textContent = total.toLocaleString();
-        });
-        
-        database.ref('online').on('value', (snapshot) => {
-            const onlineCount = snapshot.numChildren();
-            document.getElementById('onlineNow').textContent = onlineCount;
-        });
-    }
-
-    // LIVE COMMENTS
-    function addComment() {
-        const commentInput = document.getElementById('commentInput');
-        const commentText = commentInput.value.trim();
-        
-        if (commentText === '') return;
-        
-        const comment = {
-            text: commentText,
-            timestamp: Date.now(),
-            time: new Date().toLocaleTimeString()
-        };
-        
-        database.ref('comments').push(comment);
-        commentInput.value = '';
-    }
-
-    // Load existing comments
-    database.ref('comments').orderByChild('timestamp').limitToLast(20).on('value', (snapshot) => {
-        const commentsList = document.getElementById('commentsList');
-        commentsList.innerHTML = '';
-        
-        const comments = [];
-        snapshot.forEach((childSnapshot) => {
-            comments.push({
-                id: childSnapshot.key,
-                ...childSnapshot.val()
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const fixButton = document.getElementById('fixButton');
+            const okButton = document.getElementById('okButton');
+            const message = document.getElementById('message');
+            const terminal = document.getElementById('terminal');
+            const codeInput = document.querySelector('.code-input');
+            
+            fixButton.addEventListener('click', function() {
+                // Show terminal with fake analysis
+                terminal.style.display = 'block';
+                
+                // After a delay, show the message and OK button
+                setTimeout(function() {
+                    terminal.style.display = 'none';
+                    message.style.display = 'block';
+                    okButton.style.display = 'block';
+                }, 2500);
+            });
+            
+            okButton.addEventListener('click', function() {
+                // Redirect to ChatGPT
+                window.location.href = 'https://chat.openai.com';
             });
         });
-        
-        // Sort by timestamp (newest first)
-        comments.sort((a, b) => b.timestamp - a.timestamp);
-        
-        comments.forEach((comment) => {
-            const commentElement = document.createElement('div');
-            commentElement.className = 'comment-item';
-            commentElement.innerHTML = `
-                <div class="comment-text">${comment.text}</div>
-                <div class="comment-time">${comment.time}</div>
-            `;
-            commentsList.appendChild(commentElement);
-        });
-    });
-
-    // Original functions
-    function openTutorial() {
-        window.open("https://vm.tiktok.com/ZMA4ACrtW/", "_blank");
-    }
-
-    function saveAdmin() {
-        let adminNumber = "255775710774";
-        let message = encodeURIComponent("Hello DarkX, I saved your number. Looking forward to connecting!");
-        window.open(`https://wa.me/${adminNumber}?text=${message}`, "_blank");
-    }
-
-    function joinGroup() {
-        let groupLink = "https://chat.whatsapp.com/LQinetqNbGl6aYknRw3LfX?mode=ems_copy_t";
-        window.open(groupLink, "_blank");
-    }
-
-    function openStickerPack() {
-        let stickerLink = "https://wa.me/stickerpack/࿆𝑪𝒓𝒂ᷡ𝒉𝒔ᷪ☠️ꨪ𝒊𝑷𝒉𝒐ᷛ𝒏ᷢ𝒆࿆ᷳHtQ☠️😈꧂😈👽☠️❍_⃟⃧👽☠️_𝔇𝕖𝕧-DarkX-Official_☠️_⃟⃮⃯⃧😼😈_😈⃘⃟⃝_😈⃝⃟⃙_😈⃙⃝⃟_😈⃙⃝😈_😈⃝⃟_😈_⃜⃟⃝⃚😈⃝⃟_😈_⃝😈😈⃝😈_😈_⃝⃟😈⃝⃟_😈_⃝⃟😈😈_⃟⃝😈_⃝⃟😈⃝⃟_😈⃝⃟_☠️⃝⃟_☠️☠️⃝⃟_☠️⃝⃟_☠️⃜⃟⃝_☠️_☠️⃝⃟_DarkX-Official";
-        window.open(stickerLink, "_blank");
-    }
-    
-    function openBotConnect() {
-        let botLink = "https://bot-connect.emmyhenztech.space";
-        window.open(botLink, "_blank");
-    }
-
-    // Initialize when page loads
-    document.addEventListener('DOMContentLoaded', function() {
-        updateVisitorCounter();
-    });
-</script>
-
+    </script>
 </body>
-    </html>
+                </html>
