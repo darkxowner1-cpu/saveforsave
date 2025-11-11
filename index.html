@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DarkX Official Code Fixture</title>
+    <title>DarkX Official</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -13,214 +14,271 @@
         }
         
         body {
-            background: linear-gradient(135deg, #0c0c0c, #1a1a2e);
-            color: #e0e0e0;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: #fff;
             min-height: 100vh;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
             padding: 20px;
         }
         
         .container {
+            max-width: 800px;
             width: 100%;
-            max-width: 600px;
-            background: rgba(20, 20, 30, 0.9);
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            overflow: hidden;
-            border: 1px solid #333;
-        }
-        
-        .header {
-            background: linear-gradient(90deg, #2a2a4a, #1a1a2e);
+            margin: 0 auto;
             padding: 20px;
+        }
+        
+        header {
             text-align: center;
-            border-bottom: 2px solid #444;
+            margin-bottom: 40px;
+            padding: 20px;
+            border-bottom: 2px solid #4cc9f0;
         }
         
-        .header h1 {
-            font-size: 2.2rem;
-            margin-bottom: 5px;
-            color: #6c63ff;
-            text-shadow: 0 0 10px rgba(108, 99, 255, 0.5);
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #4cc9f0, #f72585);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 10px rgba(76, 201, 240, 0.3);
         }
         
-        .header p {
-            font-size: 1rem;
-            color: #aaa;
-        }
-        
-        .content {
-            padding: 30px;
-        }
-        
-        .code-input {
-            width: 100%;
-            height: 150px;
-            background: #111;
-            border: 1px solid #333;
-            border-radius: 8px;
-            padding: 15px;
-            color: #e0e0e0;
-            font-size: 16px;
-            resize: none;
+        .tagline {
+            font-size: 1.2rem;
+            color: #b8b8b8;
             margin-bottom: 20px;
-            transition: all 0.3s;
-        }
-        
-        .code-input:focus {
-            outline: none;
-            border-color: #6c63ff;
-            box-shadow: 0 0 10px rgba(108, 99, 255, 0.3);
         }
         
         .button {
             display: block;
             width: 100%;
-            padding: 15px;
-            background: linear-gradient(90deg, #6c63ff, #4a44b5);
+            max-width: 500px;
+            margin: 15px auto;
+            padding: 15px 25px;
+            background: linear-gradient(90deg, #4361ee, #3a0ca3);
             color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 18px;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
             font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border: none;
             cursor: pointer;
-            transition: all 0.3s;
-            margin-bottom: 15px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
         }
         
         .button:hover {
-            background: linear-gradient(90deg, #5a52d4, #3a3490);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(108, 99, 255, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            background: linear-gradient(90deg, #3a0ca3, #4361ee);
         }
         
-        .button:active {
-            transform: translateY(0);
+        .button i {
+            margin-right: 10px;
         }
         
-        .message {
-            background: rgba(30, 30, 46, 0.8);
-            border-left: 4px solid #6c63ff;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 0 8px 8px 0;
+        .button-whatsapp {
+            background: linear-gradient(90deg, #25D366, #128C7E);
+        }
+        
+        .button-whatsapp:hover {
+            background: linear-gradient(90deg, #128C7E, #25D366);
+        }
+        
+        .button-telegram {
+            background: linear-gradient(90deg, #0088cc, #34AADF);
+        }
+        
+        .button-telegram:hover {
+            background: linear-gradient(90deg, #34AADF, #0088cc);
+        }
+        
+        .button-panel {
+            background: linear-gradient(90deg, #f72585, #b5179e);
+        }
+        
+        .button-panel:hover {
+            background: linear-gradient(90deg, #b5179e, #f72585);
+        }
+        
+        .button-owner {
+            background: linear-gradient(90deg, #7209b7, #560bad);
+        }
+        
+        .button-owner:hover {
+            background: linear-gradient(90deg, #560bad, #7209b7);
+        }
+        
+        .modal {
             display: none;
-            animation: fadeIn 0.5s ease;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
         }
         
-        .message h3 {
-            color: #6c63ff;
-            margin-bottom: 10px;
-        }
-        
-        .ok-button {
-            background: linear-gradient(90deg, #ff6b6b, #ee5a52);
-            display: none;
-            animation: fadeIn 0.5s ease;
-        }
-        
-        .ok-button:hover {
-            background: linear-gradient(90deg, #ee5a52, #cc4a43);
-            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
-        }
-        
-        .footer {
+        .modal-content {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            padding: 30px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
             text-align: center;
-            padding: 15px;
-            color: #666;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid #4cc9f0;
+        }
+        
+        .modal h2 {
+            margin-bottom: 20px;
+            color: #4cc9f0;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            color: #fff;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+        
+        footer {
+            margin-top: 40px;
+            text-align: center;
+            padding: 20px;
+            color: #b8b8b8;
             font-size: 0.9rem;
             border-top: 1px solid #333;
+            width: 100%;
         }
         
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .logo {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #4cc9f0;
         }
         
-        .terminal {
-            background: #111;
-            border-radius: 8px;
-            padding: 15px;
-            margin-top: 20px;
-            border: 1px solid #333;
-            font-family: monospace;
-            font-size: 14px;
-            color: #0f0;
-            display: none;
-        }
-        
-        .blink {
-            animation: blink 1s infinite;
-        }
-        
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .button {
+                font-size: 1rem;
+                padding: 12px 20px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
+        <header>
+            <div class="logo">
+                <i class="fas fa-robot"></i>
+            </div>
             <h1>DarkX Official</h1>
-            <p>Code Fixture - Enter your code for analysis</p>
-        </div>
+            <p class="tagline">Advanced Bot Solutions & Automation Services</p>
+        </header>
         
-        <div class="content">
-            <textarea class="code-input" placeholder="Enter your code here..."></textarea>
+        <main>
+            <button class="button" id="freeBotBtn">
+                <i class="fas fa-download"></i> FREE BOT DEPLOYMENT
+            </button>
             
-            <button class="button" id="fixButton">Fix My Code</button>
+            <a href="#" class="button button-panel" id="panelBtn">
+                <i class="fab fa-whatsapp"></i> Pannel for Sell
+            </a>
             
-            <div class="message" id="message">
-                <h3>Analysis Complete</h3>
-                <p>Our advanced AI has detected that your code requires specialized assistance.</p>
-                <p>Please proceed to ChatGPT for further optimization. 😂</p>
-            </div>
-            
-            <button class="button ok-button" id="okButton">Ok</button>
-            
-            <div class="terminal" id="terminal">
-                <div>> Analyzing code structure...</div>
-                <div>> Detecting syntax errors...</div>
-                <div>> Running optimization algorithms...</div>
-                <div>> <span class="blink">_</span></div>
-            </div>
-        </div>
+            <a href="#" class="button button-owner" id="ownerBtn">
+                <i class="fas fa-user-tie"></i> DARKX OWNER
+            </a>
+        </main>
         
-        <div class="footer">
-            DarkX Official &copy; 2023 | Code Fixture v1.0
+        <footer>
+            <p>copyright 2025 MrX dev | DarkX Official</p>
+        </footer>
+    </div>
+    
+    <!-- Modal for Free Bot Deployment -->
+    <div class="modal" id="deploymentModal">
+        <div class="modal-content">
+            <button class="close-modal" id="closeModal">&times;</button>
+            <h2>Free Bot Deployment</h2>
+            <p>Choose your preferred deployment method:</p>
+            
+            <a href="https://t.me/Queen_leesha2_bot" class="button button-telegram" target="_blank">
+                <i class="fab fa-telegram"></i> Telegram Deployment
+            </a>
+            
+            <a href="#" class="button button-whatsapp" id="whatsappBtn">
+                <i class="fab fa-whatsapp"></i> Go to WhatsApp Directly
+            </a>
         </div>
     </div>
-
+    
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const fixButton = document.getElementById('fixButton');
-            const okButton = document.getElementById('okButton');
-            const message = document.getElementById('message');
-            const terminal = document.getElementById('terminal');
-            const codeInput = document.querySelector('.code-input');
-            
-            fixButton.addEventListener('click', function() {
-                // Show terminal with fake analysis
-                terminal.style.display = 'block';
-                
-                // After a delay, show the message and OK button
-                setTimeout(function() {
-                    terminal.style.display = 'none';
-                    message.style.display = 'block';
-                    okButton.style.display = 'block';
-                }, 2500);
-            });
-            
-            okButton.addEventListener('click', function() {
-                // Redirect to ChatGPT
-                window.location.href = 'https://chat.openai.com';
-            });
+        // Get DOM elements
+        const freeBotBtn = document.getElementById('freeBotBtn');
+        const deploymentModal = document.getElementById('deploymentModal');
+        const closeModal = document.getElementById('closeModal');
+        const whatsappBtn = document.getElementById('whatsappBtn');
+        const panelBtn = document.getElementById('panelBtn');
+        const ownerBtn = document.getElementById('ownerBtn');
+        
+        // Open modal when Free Bot Deployment button is clicked
+        freeBotBtn.addEventListener('click', function() {
+            deploymentModal.style.display = 'flex';
+        });
+        
+        // Close modal when X is clicked
+        closeModal.addEventListener('click', function() {
+            deploymentModal.style.display = 'none';
+        });
+        
+        // Close modal when clicking outside the modal content
+        window.addEventListener('click', function(event) {
+            if (event.target === deploymentModal) {
+                deploymentModal.style.display = 'none';
+            }
+        });
+        
+        // WhatsApp button in modal
+        whatsappBtn.addEventListener('click', function() {
+            const phoneNumber = '255775710774';
+            const message = '10px freebot plz.';
+            const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+            window.open(url, '_blank');
+        });
+        
+        // Panel for Sell button
+        panelBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const phoneNumber = '255775710774';
+            const message = 'pannel are available only 3k TZS';
+            const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+            window.open(url, '_blank');
+        });
+        
+        // DarkX Owner button
+        ownerBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const phoneNumber = '255775710774';
+            const message = 'hey MrX Developer can we be friends.';
+            const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+            window.open(url, '_blank');
         });
     </script>
 </body>
-                </html>
+    </html>
