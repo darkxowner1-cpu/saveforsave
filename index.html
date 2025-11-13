@@ -114,6 +114,14 @@
             background: linear-gradient(90deg, #560bad, #7209b7);
         }
         
+        .button-submenu {
+            background: linear-gradient(90deg, #f8961e, #f3722c);
+        }
+        
+        .button-submenu:hover {
+            background: linear-gradient(90deg, #f3722c, #f8961e);
+        }
+        
         .modal {
             display: none;
             position: fixed;
@@ -132,15 +140,18 @@
             padding: 30px;
             border-radius: 20px;
             width: 90%;
-            max-width: 500px;
-            text-align: center;
+            max-width: 600px;
+            text-align: left;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             border: 1px solid #4cc9f0;
+            max-height: 80vh;
+            overflow-y: auto;
         }
         
         .modal h2 {
             margin-bottom: 20px;
             color: #4cc9f0;
+            text-align: center;
         }
         
         .close-modal {
@@ -152,6 +163,40 @@
             cursor: pointer;
             background: none;
             border: none;
+        }
+        
+        .bot-info {
+            margin-bottom: 20px;
+        }
+        
+        .bot-info h3 {
+            color: #f72585;
+            margin: 15px 0 10px 0;
+            border-bottom: 1px solid #333;
+            padding-bottom: 5px;
+        }
+        
+        .bot-info ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .bot-info li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        
+        .feature-category {
+            background: rgba(76, 201, 240, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 4px solid #4cc9f0;
+        }
+        
+        .feature-category h4 {
+            color: #f8961e;
+            margin-bottom: 10px;
         }
         
         footer {
@@ -179,6 +224,10 @@
                 font-size: 1rem;
                 padding: 12px 20px;
             }
+            
+            .modal-content {
+                padding: 20px;
+            }
         }
     </style>
 </head>
@@ -197,6 +246,10 @@
                 <i class="fas fa-download"></i> FREE BOT DEPLOYMENT
             </button>
             
+            <button class="button button-submenu" id="subMenuBtn">
+                <i class="fas fa-info-circle"></i> WHAT IS BOT?
+            </button>
+            
             <a href="#" class="button button-panel" id="panelBtn">
                 <i class="fab fa-whatsapp"></i> Pannel for Sell
             </a>
@@ -207,7 +260,7 @@
         </main>
         
         <footer>
-            <p>copyright 2025 MrX dev | DarkX Official</p>
+            <p>♧ 2025 MrX dev | DarkX Official</p>
         </footer>
     </div>
     
@@ -228,6 +281,90 @@
         </div>
     </div>
     
+    <!-- Modal for What is Bot -->
+    <div class="modal" id="subMenuModal">
+        <div class="modal-content">
+            <button class="close-modal" id="closeSubModal">&times;</button>
+            <h2>What is whatsapp Bot?</h2>
+            
+            <div class="bot-info">
+                <h3>🤖 Bot Definition</h3>
+                <p>Whatsapp Bot ni bot yenye uwezo mkubwa wa kukupa huduma mbalimbali kwenye WhatsApp kiotomatiki. Ni kama msaidizi wa kibinafsi anayeweza kufanya kazi nyingi kwa wakati mmoja.</p>
+                
+                <h3>🎯 Kazi Kuu za Bot</h3>
+                
+                <div class="feature-category">
+                    <h4>📱 Huduma za WhatsApp</h4>
+                    <ul>
+                        <li>Kutengeneza sticker kutoka kwenye picha na video</li>
+                        <li>Kupakua video kutoka YouTube, TikTok na mitandao mingine</li>
+                        <li>Kubadilisha audio na video kwa muundo tofauti</li>
+                        <li>Kutafuta na kushiriki nyimbo</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-category">
+                    <h4>👥 Usimamizi wa Group</h4>
+                    <ul>
+                        <li>Kuwataja wote kwenye group (tagall)</li>
+                        <li>Kuongeza na kuondoa watu kwenye group</li>
+                        <li>Kuzuia viungo visipotakiwa (antilink)</li>
+                        <li>Kutengeneza group mpya moja kwa moja</li>
+                        <li>Kuwinda na kuwafukuza watu wasiotakiwa</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-category">
+                    <h4>😄 Burudani na Michezo</h4>
+                    <ul>
+                        <li>Kucheza michezo kama Rock Paper Scissors</li>
+                        <li>Kutoa vituko, vichekesho na hadithi</li>
+                        <li>Kupima uhusiano kati ya watu (ship)</li>
+                        <li>Kutoa ukweli na chango (truth & dare)</li>
+                        <li>Kutengeneza memes na picha za kusisimua</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-category">
+                    <h4>🧠 Akili Bandia (AI)</h4>
+                    <ul>
+                        <li>Kujibu maswali kwa kutumia AI</li>
+                        <li>Kutengeneza msimbo wa programu</li>
+                        <li>Kusaidia kutatua matatizo ya kiufundi</li>
+                        <li>Kutafsiri lugha tofauti</li>
+                        <li>Kutoa ushauri na maelezo</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-category">
+                    <h4>🛠️ Zana za Matumizi</h4>
+                    <ul>
+                        <li>Kubadilisha PDF kuwa maandishi</li>
+                        <li>Kutengeneza na kusoma QR codes</li>
+                        <li>Kupima kasi ya mtandao (ping)</li>
+                        <li>Kutafuta habari za hali ya hewa</li>
+                        <li>Kubadilisha sarafu</li>
+                        <li>Kukariri na kukukumbusha kazi</li>
+                    </ul>
+                </div>
+                
+                <h3>💡 Faida za Kutumia Bot</h3>
+                <ul>
+                    <li>✅ Inakuokoa muda mwingi</li>
+                    <li>✅ Inafanya kazi nyingi kwa wakati mmoja</li>
+                    <li>✅ Inakupa huduma za hali ya juu bure</li>
+                    <li>✅ Inaweza kufanya kazi masaa 24</li>
+                    <li>✅ Inasaidia katika kazi za kila siku</li>
+                    <li>✅ Inakuwezesha kufurahia WhatsApp zaidi</li>
+                </ul>
+                
+                <p style="margin-top: 20px; text-align: center; color: #4cc9f0; font-weight: bold;">
+                    ⚡ Bot ina uwezo wa kukupa huduma za hali ya juu bure kabisa!
+                </p>
+            </div>
+        </div>
+    </div>
+    
     <script>
         // Get DOM elements
         const freeBotBtn = document.getElementById('freeBotBtn');
@@ -236,21 +373,36 @@
         const whatsappBtn = document.getElementById('whatsappBtn');
         const panelBtn = document.getElementById('panelBtn');
         const ownerBtn = document.getElementById('ownerBtn');
+        const subMenuBtn = document.getElementById('subMenuBtn');
+        const subMenuModal = document.getElementById('subMenuModal');
+        const closeSubModal = document.getElementById('closeSubModal');
         
         // Open modal when Free Bot Deployment button is clicked
         freeBotBtn.addEventListener('click', function() {
             deploymentModal.style.display = 'flex';
         });
         
-        // Close modal when X is clicked
+        // Open modal when What is Bot button is clicked
+        subMenuBtn.addEventListener('click', function() {
+            subMenuModal.style.display = 'flex';
+        });
+        
+        // Close modals when X is clicked
         closeModal.addEventListener('click', function() {
             deploymentModal.style.display = 'none';
         });
         
-        // Close modal when clicking outside the modal content
+        closeSubModal.addEventListener('click', function() {
+            subMenuModal.style.display = 'none';
+        });
+        
+        // Close modals when clicking outside the modal content
         window.addEventListener('click', function(event) {
             if (event.target === deploymentModal) {
                 deploymentModal.style.display = 'none';
+            }
+            if (event.target === subMenuModal) {
+                subMenuModal.style.display = 'none';
             }
         });
         
@@ -281,4 +433,4 @@
         });
     </script>
 </body>
-    </html>
+                                  </html>
