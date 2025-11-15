@@ -3,91 +3,114 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DarkX Official</title>
+    <title>DarkX Official - Next Generation WhatsApp Bot</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* General Styles */
+        /* === GLOBAL STYLES === */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+
+        :root {
+            --primary: #4cc9f0;
+            --secondary: #f72585;
+            --accent: #7209b7;
+            --dark: #0a0a1a;
+            --darker: #050510;
+            --light: #e0e0e0;
+            --success: #25d366;
+            --warning: #f8961e;
+            --danger: #e63946;
+        }
         
         body {
-            background: linear-gradient(-45deg, #0a0a1a, #0d1222, #070e1c, #000000);
+            background: linear-gradient(-45deg, var(--darker), var(--dark), #070e1c, #000000);
             background-size: 400% 400%;
             animation: gradientBg 15s ease infinite;
-            color: #e0e0e0; /* Lighter text for dark background */
+            color: var(--light);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             padding: 20px;
             overflow-x: hidden;
-            position: relative; /* For matrix effect */
+            position: relative;
         }
 
-        /* Matrix Overlay Effect */
-        body::before {
-            content: '';
+        /* === MATRIX BACKGROUND === */
+        .matrix-bg {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"><rect width="10" height="10" fill="transparent"/><text x="0" y="8" font-family="monospace" font-size="10" fill="rgba(60,255,60,0.1)">01</text></svg>');
-            background-size: 10px 10px;
-            opacity: 0.3;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(76, 201, 240, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(247, 37, 133, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(114, 9, 183, 0.1) 0%, transparent 50%);
             z-index: -2;
-            animation: matrixScroll 60s linear infinite;
         }
 
-        @keyframes matrixScroll {
-            from { background-position: 0 0; }
-            to { background-position: 1000px 1000px; }
+        .binary-rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(76, 201, 240, 0.03) 2px, rgba(76, 201, 240, 0.03) 4px),
+                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(247, 37, 133, 0.03) 2px, rgba(247, 37, 133, 0.03) 4px);
+            animation: matrixMove 20s linear infinite;
+            z-index: -1;
         }
-        
-        /* Animations */
+
+        /* === ANIMATIONS === */
         @keyframes gradientBg {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
-        
-        @keyframes float {
-            0%, 100% { transform: translatey(0px) rotate(0deg); }
-            50% { transform: translatey(-20px) rotate(180deg); }
+
+        @keyframes matrixMove {
+            0% { transform: translateY(0) translateX(0); }
+            100% { transform: translateY(-100px) translateX(50px); }
         }
-        
-        @keyframes fadeInUp {
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); }
+            33% { transform: translateY(-20px) rotate(120deg) scale(1.1); }
+            66% { transform: translateY(10px) rotate(240deg) scale(0.9); }
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { 
+                box-shadow: 0 0 20px rgba(76, 201, 240, 0.3),
+                           0 0 40px rgba(76, 201, 240, 0.2),
+                           0 0 60px rgba(76, 201, 240, 0.1);
+            }
+            50% { 
+                box-shadow: 0 0 30px rgba(76, 201, 240, 0.5),
+                           0 0 60px rgba(76, 201, 240, 0.3),
+                           0 0 90px rgba(76, 201, 240, 0.2);
+            }
+        }
+
+        @keyframes textShine {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+
+        @keyframes slideUp {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(50px);
             }
             to {
                 opacity: 1;
                 transform: translateY(0);
-            }
-        }
-        
-        @keyframes glow {
-            from { text-shadow: 0 0 10px rgba(76, 201, 240, 0.5); }
-            to { text-shadow: 0 0 20px rgba(76, 201, 240, 0.8), 0 0 30px rgba(76, 201, 240, 0.6); }
-        }
-        
-        @keyframes shine {
-            to { background-position: 200% center; }
-        }
-        
-        @keyframes slideInLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
             }
         }
 
@@ -96,12 +119,14 @@
             to { opacity: 1; }
         }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
         }
-        
-        /* Animated Particles Background */
+
+        /* === PARTICLES === */
         .particles {
             position: fixed;
             top: 0;
@@ -109,485 +134,728 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            overflow: hidden; /* Ensure particles don't spill out */
         }
         
         .particle {
             position: absolute;
-            background: rgba(76, 201, 240, 0.2); /* Softer blue */
             border-radius: 50%;
-            animation: float 6s infinite ease-in-out;
+            animation: float 8s infinite ease-in-out;
         }
-        
+
+        /* === MAIN CONTAINER === */
         .container {
-            max-width: 800px;
+            max-width: 1200px;
             width: 100%;
             margin: 0 auto;
             padding: 20px;
             z-index: 1;
-            position: relative; /* To ensure content is above particles */
         }
-        
-        header {
+
+        /* === HEADER === */
+        .hero-section {
             text-align: center;
-            margin-bottom: 40px;
-            padding: 30px 20px;
-            background: rgba(10, 10, 26, 0.7); /* Darker, more transparent */
-            border-radius: 20px;
-            backdrop-filter: blur(8px); /* Slightly less blur */
-            border: 1px solid rgba(76, 201, 240, 0.2); /* Softer border */
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); /* Stronger shadow */
-            animation: fadeInUp 1s ease;
+            margin-bottom: 50px;
+            padding: 50px 30px;
+            background: rgba(10, 10, 26, 0.6);
+            border-radius: 30px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(76, 201, 240, 0.3);
+            animation: glowPulse 4s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
         }
-        
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(76, 201, 240, 0.1), transparent);
+            animation: shine 6s linear infinite;
+            transform: rotate(45deg);
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
         .logo {
-            font-size: 4rem;
+            font-size: 5rem;
             margin-bottom: 20px;
-            color: #4cc9f0;
-            text-shadow: 0 0 20px rgba(76, 201, 240, 0.5);
-            animation: glow 2s ease-in-out infinite alternate;
+            color: var(--primary);
+            text-shadow: 0 0 30px rgba(76, 201, 240, 0.7);
+            animation: float 6s ease-in-out infinite;
         }
-        
+
         h1 {
-            font-size: 3.5rem;
-            margin-bottom: 10px;
-            background: linear-gradient(90deg, #4cc9f0, #f72585, #4cc9f0); /* Original gradient */
-            background-size: 200% auto;
+            font-size: 4rem;
+            margin-bottom: 15px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent), var(--primary));
+            background-size: 300% auto;
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            animation: shine 3s linear infinite;
+            animation: textShine 4s linear infinite;
+            font-weight: 800;
+            letter-spacing: -1px;
         }
-        
+
         .tagline {
-            font-size: 1.3rem;
+            font-size: 1.5rem;
             color: #b8b8b8;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             font-weight: 300;
+            line-height: 1.6;
         }
-        
-        /* Status Bar */
+
+        .global-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* === STATUS BAR === */
         .status-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
             background: rgba(10, 10, 26, 0.7);
-            padding: 15px 25px;
-            border-radius: 15px;
-            margin-bottom: 20px;
-            backdrop-filter: blur(8px);
+            padding: 20px 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(15px);
             border: 1px solid rgba(76, 201, 240, 0.2);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            animation: fadeIn 1.2s ease;
-        }
-        
-        .online-status, .users-online {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 1rem;
-            color: #c0c0c0;
+            animation: slideUp 1s ease;
         }
 
-        .status-bar i {
-            color: #4cc9f0;
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.1rem;
         }
-        
+
         .status-dot {
-            width: 10px;
-            height: 10px;
-            background: #25d366; /* Green for online */
+            width: 12px;
+            height: 12px;
+            background: var(--success);
             border-radius: 50%;
-            animation: pulse 2s infinite;
+            animation: glowPulse 2s ease-in-out infinite;
         }
-        
-        /* Main Buttons Grid */
+
+        .status-item i {
+            color: var(--primary);
+            font-size: 1.3rem;
+        }
+
+        /* === BUTTONS GRID === */
         .main-buttons-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Adjusted for 2 columns on larger screens */
-            gap: 20px;
-            margin-bottom: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
         }
 
         .button {
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 100%;
-            padding: 18px 25px;
+            padding: 22px 30px;
             background: linear-gradient(135deg, rgba(67, 97, 238, 0.9), rgba(58, 12, 163, 0.9));
             color: white;
             text-decoration: none;
-            border-radius: 15px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
             border: none;
             cursor: pointer;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            animation: slideInLeft 0.8s ease forwards; /* Use forwards to stay at end state */
+            backdrop-filter: blur(15px);
+            border: 2px solid transparent;
             position: relative;
-            overflow: hidden; /* For ripple effect */
-        }
-        
-        .button:nth-child(1) { animation-delay: 0s; }
-        .button:nth-child(2) { animation-delay: 0.1s; }
-        .button:nth-child(3) { animation-delay: 0.2s; }
-        .button:nth-child(4) { animation-delay: 0.3s; }
-        .button:nth-child(5) { animation-delay: 0.4s; } /* For the new support button */
-        
-        .button:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
-            background: linear-gradient(135deg, rgba(58, 12, 163, 0.9), rgba(67, 97, 238, 0.9)); /* Hover color swap */
-        }
-        
-        .button i {
-            margin-right: 12px;
-            font-size: 1.3rem;
+            overflow: hidden;
+            animation: slideUp 0.8s ease forwards;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        /* Ripple Effect for Buttons */
-        .ripple {
+        .button::before {
+            content: '';
             position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.3);
-            animation: ripple-animation 0.6s linear forwards;
-            transform: scale(0);
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
         }
 
-        @keyframes ripple-animation {
-            to {
-                transform: scale(4);
-                opacity: 0;
-            }
+        .button:hover::before {
+            left: 100%;
         }
-        
-        /* Button Specific Styles */
+
+        .button:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+        }
+
+        .button i {
+            margin-right: 15px;
+            font-size: 1.5rem;
+        }
+
+        /* Button Variants */
         .button-primary {
-            background: linear-gradient(135deg, #4cc9f0, #4361ee); /* Lighter blue to deeper blue */
-        }
-        .button-primary:hover {
-            background: linear-gradient(135deg, #4361ee, #4cc9f0);
-        }
-        
-        .button-info { /* What is bot */
-            background: linear-gradient(135deg, #f72585, #b5179e); /* Pink to purple */
-        }
-        .button-info:hover {
-            background: linear-gradient(135deg, #b5179e, #f72585);
-        }
-        
-        .button-panel { /* Panel for Sell */
-            background: linear-gradient(135deg, #25d366, #128c7e); /* WhatsApp green */
-        }
-        .button-panel:hover {
-            background: linear-gradient(135deg, #128c7e, #25d366);
-        }
-        
-        .button-owner {
-            background: linear-gradient(135deg, #7209b7, #560bad); /* Dark purple */
-        }
-        .button-owner:hover {
-            background: linear-gradient(135deg, #560bad, #7209b7);
+            background: linear-gradient(135deg, var(--primary), #4361ee);
+            border-color: rgba(76, 201, 240, 0.5);
         }
 
-        .button-support { /* New Support Button */
-            background: linear-gradient(135deg, #8a2be2, #4b0082); /* Purple to Indigo */
+        .button-info {
+            background: linear-gradient(135deg, var(--secondary), #b5179e);
+            border-color: rgba(247, 37, 133, 0.5);
         }
-        .button-support:hover {
-            background: linear-gradient(135deg, #4b0082, #8a2be2);
+
+        .button-panel {
+            background: linear-gradient(135deg, var(--success), #128c7e);
+            border-color: rgba(37, 211, 102, 0.5);
         }
-        
-        /* Features Grid */
+
+        .button-owner {
+            background: linear-gradient(135deg, var(--accent), #560bad);
+            border-color: rgba(114, 9, 183, 0.5);
+        }
+
+        .button-support {
+            background: linear-gradient(135deg, #8a2be2, #4b0082);
+            border-color: rgba(138, 43, 226, 0.5);
+        }
+
+        /* === FEATURES SHOWCASE === */
+        .features-showcase {
+            margin: 50px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 800;
+        }
+
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin: 30px 0;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
         }
-        
+
         .feature-card {
             background: rgba(10, 10, 26, 0.6);
-            padding: 25px;
-            border-radius: 15px;
+            padding: 30px;
+            border-radius: 20px;
             text-align: center;
-            backdrop-filter: blur(8px);
+            backdrop-filter: blur(15px);
             border: 1px solid rgba(76, 201, 240, 0.2);
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            animation: fadeIn 1s ease;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
         }
-        
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
         .feature-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-10px) scale(1.02);
             border-color: rgba(76, 201, 240, 0.5);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
         }
-        
+
         .feature-icon {
-            font-size: 2.5rem;
-            color: #4cc9f0;
-            margin-bottom: 15px;
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        
+
         .feature-title {
-            font-size: 1.2rem;
-            font-weight: bold;
-            margin-bottom: 10px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 15px;
             color: #fff;
         }
-        
+
         .feature-desc {
-            font-size: 0.9rem;
+            font-size: 1rem;
             color: #b8b8b8;
-            line-height: 1.5;
+            line-height: 1.6;
         }
-        
-        /* Footer */
-        footer {
-            margin-top: 40px;
-            text-align: center;
+
+        /* === TESTIMONIALS === */
+        .testimonials {
+            margin: 60px 0;
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .testimonial-card {
+            background: rgba(10, 10, 26, 0.6);
             padding: 25px;
+            border-radius: 20px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(76, 201, 240, 0.2);
+            position: relative;
+        }
+
+        .testimonial-text {
+            font-style: italic;
             color: #b8b8b8;
-            font-size: 0.9rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* === FOOTER === */
+        footer {
+            margin-top: 60px;
+            text-align: center;
+            padding: 40px 30px;
+            color: #b8b8b8;
+            font-size: 1rem;
             width: 100%;
             background: rgba(10, 10, 26, 0.7);
-            border-radius: 15px;
-            backdrop-filter: blur(8px);
-            box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.3);
-            animation: fadeIn 1.5s ease;
+            border-radius: 25px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(76, 201, 240, 0.2);
         }
-        
-        /* Media Queries for Responsiveness */
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: var(--primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: var(--secondary);
+        }
+
+        /* === RESPONSIVE DESIGN === */
         @media (max-width: 768px) {
             h1 {
-                font-size: 2.5rem;
+                font-size: 2.8rem;
+            }
+            .logo {
+                font-size: 4rem;
+            }
+            .button {
+                padding: 18px 25px;
+                font-size: 1.1rem;
+            }
+            .main-buttons-grid {
+                grid-template-columns: 1fr;
+            }
+            .global-stats {
+                gap: 20px;
+            }
+            .stat-number {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2.2rem;
             }
             .logo {
                 font-size: 3rem;
-            }
-            .button {
-                padding: 15px 20px;
-                font-size: 1rem;
-            }
-            .main-buttons-grid {
-                grid-template-columns: 1fr; /* Stack buttons on smaller screens */
-            }
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 2rem;
-            }
-            .logo {
-                font-size: 2.5rem;
             }
             .container {
                 padding: 10px;
             }
             .status-bar {
                 flex-direction: column;
-                gap: 10px;
-                padding: 10px 15px;
+                gap: 15px;
+                padding: 15px 20px;
             }
-            .online-status, .users-online {
-                font-size: 0.9rem;
+            .section-title {
+                font-size: 2rem;
             }
         }
     </style>
 </head>
 <body>
+    <div class="matrix-bg"></div>
+    <div class="binary-rain"></div>
     <div class="particles" id="particles"></div>
 
     <div class="container">
-        <header>
+        <!-- Hero Section -->
+        <section class="hero-section">
             <div class="logo">
                 <i class="fas fa-robot"></i>
             </div>
-            <h1>DarkX Official</h1>
-            <p class="tagline">Advanced Bot Solutions & Automation Services</p>
-        </header>
-        
-        <div class="status-bar">
-            <div class="online-status">
-                <div class="status-dot"></div>
-                <span>Bot Status: Online</span>
+            <h1>DARKX OFFICIAL</h1>
+            <p class="tagline">Revolutionizing WhatsApp Automation with AI-Powered Solutions</p>
+            
+            <div class="global-stats">
+                <div class="stat-item">
+                    <span class="stat-number">10K+</span>
+                    <span class="stat-label">Global Users</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">24/7</span>
+                    <span class="stat-label">Uptime</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">150+</span>
+                    <span class="stat-label">Features</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">50+</span>
+                    <span class="stat-label">Countries</span>
+                </div>
             </div>
-            <div class="users-online">
-                <i class="fas fa-users"></i>
-                <span>500+ Active Users</span>
+        </section>
+        
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <div class="status-item">
+                <div class="status-dot"></div>
+                <span>Global Status: ONLINE</span>
+            </div>
+            <div class="status-item">
+                <i class="fas fa-globe-americas"></i>
+                <span>Worldwide Service</span>
+            </div>
+            <div class="status-item">
+                <i class="fas fa-bolt"></i>
+                <span>Lightning Fast Responses</span>
             </div>
         </div>
         
+        <!-- Main Actions -->
         <main>
             <div class="main-buttons-grid">
                 <button class="button button-primary" id="freeBotBtn">
-                    <i class="fas fa-download"></i> FREE BOT DEPLOYMENT
+                    <i class="fas fa-rocket"></i> GET STARTED FREE
                 </button>
                 
                 <button class="button button-info" id="whatIsBotBtn">
-                    <i class="fas fa-info-circle"></i> WHAT IS BOT?
+                    <i class="fas fa-play-circle"></i> SEE DEMO
                 </button>
                 
                 <button class="button button-panel" id="panelBtn">
-                    <i class="fab fa-whatsapp"></i> PANEL FOR SELL
+                    <i class="fas fa-crown"></i> PREMIUM ACCESS
                 </button>
                 
                 <button class="button button-owner" id="ownerBtn">
-                    <i class="fas fa-user-tie"></i> DARKX OWNER
+                    <i class="fas fa-code"></i> DEVELOPER
                 </button>
 
                 <button class="button button-support" id="supportTeamBtn">
-                    <i class="fas fa-headset"></i> SUPPORT TEAM
+                    <i class="fas fa-headset"></i> 24/7 SUPPORT
                 </button>
             </div>
             
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-bolt"></i>
+            <!-- Features Showcase -->
+            <section class="features-showcase">
+                <h2 class="section-title">WHY CHOOSE DARKX?</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div class="feature-title">AI-POWERED</div>
+                        <div class="feature-desc">Advanced artificial intelligence for smart responses and automation</div>
                     </div>
-                    <div class="feature-title">FAST & RELIABLE</div>
-                    <div class="feature-desc">24/7 uptime with instant response times</div>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-shield-alt"></i>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="feature-title">MILITARY SECURITY</div>
+                        <div class="feature-desc">End-to-end encryption and secure data protection</div>
                     </div>
-                    <div class="feature-title">SECURE</div>
-                    <div class="feature-desc">Encrypted and safe to use</div>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-cogs"></i>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <div class="feature-title">LIGHTNING FAST</div>
+                        <div class="feature-desc">Instant responses with sub-second reaction times</div>
                     </div>
-                    <div class="feature-title">MULTI-FEATURE</div>
-                    <div class="feature-desc">100+ commands and features</div>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-headset"></i>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-language"></i>
+                        </div>
+                        <div class="feature-title">MULTI-LANGUAGE</div>
+                        <div class="feature-desc">Supports 50+ languages for global accessibility</div>
                     </div>
-                    <div class="feature-title">SUPPORT</div>
-                    <div class="feature-desc">24/7 customer support available</div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-cloud"></i>
+                        </div>
+                        <div class="feature-title">CLOUD POWERED</div>
+                        <div class="feature-desc">Scalable cloud infrastructure for reliability</div>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <div class="feature-title">CROSS-PLATFORM</div>
+                        <div class="feature-desc">Works seamlessly across all devices and platforms</div>
+                    </div>
                 </div>
-            </div>
+            </section>
+
+            <!-- Testimonials -->
+            <section class="testimonials">
+                <h2 class="section-title">GLOBAL USER REVIEWS</h2>
+                <div class="testimonial-grid">
+                    <div class="testimonial-card">
+                        <p class="testimonial-text">"DarkX transformed my business communication. The AI features are incredible!"</p>
+                        <div class="testimonial-author">
+                            <i class="fas fa-user"></i>
+                            <span>Sarah M. - USA</span>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <p class="testimonial-text">"Best WhatsApp bot I've ever used. The support team is amazing!"</p>
+                        <div class="testimonial-author">
+                            <i class="fas fa-user"></i>
+                            <span>Ahmed R. - UAE</span>
+                        </div>
+                    </div>
+                    <div class="testimonial-card">
+                        <p class="testimonial-text">"Revolutionary technology that saved me hours every day. Highly recommended!"</p>
+                        <div class="testimonial-author">
+                            <i class="fas fa-user"></i>
+                            <span>Maria L. - Brazil</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </main>
         
+        <!-- Footer -->
         <footer>
-            <p>&copy; 2025 MrX Dev | DarkX Official</p>
-            <p style="margin-top: 10px; font-size: 0.8rem; color: #888;">
-                Advanced WhatsApp Bot Solutions
+            <p>&copy; 2025 DarkX Official - Next Generation Automation</p>
+            <div class="footer-links">
+                <a href="#" class="footer-link">Privacy Policy</a>
+                <a href="#" class="footer-link">Terms of Service</a>
+                <a href="#" class="footer-link">Documentation</a>
+                <a href="#" class="footer-link">API Access</a>
+            </div>
+            <p style="margin-top: 20px; font-size: 0.9rem; color: #666;">
+                Trusted by users in 50+ countries worldwide
             </p>
         </footer>
     </div>
     
     <script>
-        // Create animated particles
+        // Create advanced particles
         function createParticles() {
             const particlesContainer = document.getElementById('particles');
-            const particleCount = 50;
+            const particleCount = 80;
             
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
                 particle.classList.add('particle');
                 
-                // Random properties
-                const size = Math.random() * 6 + 2; // 2px to 8px
+                const size = Math.random() * 8 + 2;
                 const posX = Math.random() * 100;
                 const posY = Math.random() * 100;
-                const delay = Math.random() * 5;
-                const duration = Math.random() * 4 + 3;
+                const delay = Math.random() * 8;
+                const duration = Math.random() * 6 + 4;
+                const colorType = Math.random();
+                
+                let color;
+                if (colorType < 0.33) {
+                    color = 'rgba(76, 201, 240, 0.3)';
+                } else if (colorType < 0.66) {
+                    color = 'rgba(247, 37, 133, 0.3)';
+                } else {
+                    color = 'rgba(114, 9, 183, 0.3)';
+                }
                 
                 particle.style.width = `${size}px`;
                 particle.style.height = `${size}px`;
                 particle.style.left = `${posX}%`;
                 particle.style.top = `${posY}%`;
+                particle.style.background = color;
                 particle.style.animationDelay = `${delay}s`;
                 particle.style.animationDuration = `${duration}s`;
                 
                 particlesContainer.appendChild(particle);
             }
         }
-        
+
         // Initialize particles
         createParticles();
-        
-        // Button functionality (using consistent IDs)
-        const freeBotBtn = document.getElementById('freeBotBtn');
-        const whatIsBotBtn = document.getElementById('whatIsBotBtn');
-        const panelBtn = document.getElementById('panelBtn');
-        const ownerBtn = document.getElementById('ownerBtn');
-        const supportTeamBtn = document.getElementById('supportTeamBtn'); // New button
 
-        const phoneNumber = '255775710774'; // Centralize phone number
+        // Button functionality
+        const phoneNumber = '255775710774';
 
-        freeBotBtn.addEventListener('click', function() {
+        document.getElementById('freeBotBtn').addEventListener('click', function() {
             window.open('https://sila-md-mini-bots-6042b565bf81.herokuapp.com/', '_blank');
         });
         
-        whatIsBotBtn.addEventListener('click', function() {
-            const message = 'Hi, I want to know more about DarkX bot features.';
+        document.getElementById('whatIsBotBtn').addEventListener('click', function() {
+            const message = 'Hello! I would like to see a demo of DarkX bot features.';
             const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
             window.open(url, '_blank');
         });
         
-        panelBtn.addEventListener('click', function() {
-            const message = 'I want to buy DarkX bot panel.';
+        document.getElementById('panelBtn').addEventListener('click', function() {
+            const message = 'I am interested in premium access for DarkX bot.';
             const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
             window.open(url, '_blank');
         });
         
-        ownerBtn.addEventListener('click', function() {
-            const message = 'Hello DarkX owner, I want to connect with you.';
+        document.getElementById('ownerBtn').addEventListener('click', function() {
+            const message = 'Hello developer! I would like to discuss about DarkX.';
             const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
             window.open(url, '_blank');
         });
 
-        supportTeamBtn.addEventListener('click', function() {
-            const message = 'I need support from the DarkX team.';
+        document.getElementById('supportTeamBtn').addEventListener('click', function() {
+            const message = 'I need support from the DarkX team. Please help.';
             const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
             window.open(url, '_blank');
         });
-        
-        // Add click animation (ripple effect) to all buttons
+
+        // Advanced ripple effect
         document.querySelectorAll('.button').forEach(button => {
             button.addEventListener('click', function(e) {
-                // Remove any existing ripple to prevent multiple at once
                 const existingRipple = this.querySelector('.ripple');
-                if (existingRipple) {
-                    existingRipple.remove();
-                }
+                if (existingRipple) existingRipple.remove();
 
-                // Create ripple effect
                 const ripple = document.createElement('span');
                 const rect = this.getBoundingClientRect();
                 const size = Math.max(rect.width, rect.height);
                 const x = e.clientX - rect.left - size / 2;
                 const y = e.clientY - rect.top - size / 2;
                 
-                ripple.style.width = ripple.style.height = size + 'px';
-                ripple.style.left = x + 'px';
-                ripple.style.top = y + 'px';
-                ripple.classList.add('ripple');
+                ripple.style.cssText = `
+                    width: ${size}px;
+                    height: ${size}px;
+                    left: ${x}px;
+                    top: ${y}px;
+                    position: absolute;
+                    border-radius: 50%;
+                    background: rgba(255, 255, 255, 0.4);
+                    animation: ripple 0.6s linear forwards;
+                    transform: scale(0);
+                    pointer-events: none;
+                `;
                 
+                this.style.position = 'relative';
                 this.appendChild(ripple);
                 
-                setTimeout(() => {
-                    ripple.remove();
-                }, 600);
+                setTimeout(() => ripple.remove(), 600);
             });
         });
+
+        // Add CSS for ripple animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Animate stats counter
+        function animateStats() {
+            const stats = document.querySelectorAll('.stat-number');
+            stats.forEach(stat => {
+                const target = parseInt(stat.textContent);
+                let current = 0;
+                const increment = target / 50;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        stat.textContent = target + '+';
+                        clearInterval(timer);
+                    } else {
+                        stat.textContent = Math.floor(current) + '+';
+                    }
+                }, 50);
+            });
+        }
+
+        // Start animation when page loads
+        window.addEventListener('load', animateStats);
     </script>
 </body>
-</html>
+    </html>
