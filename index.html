@@ -122,6 +122,14 @@
             background: linear-gradient(90deg, #f3722c, #f8961e);
         }
         
+        .button-direct {
+            background: linear-gradient(90deg, #ff6b6b, #ee5a52);
+        }
+        
+        .button-direct:hover {
+            background: linear-gradient(90deg, #ee5a52, #ff6b6b);
+        }
+        
         .modal {
             display: none;
             position: fixed;
@@ -275,6 +283,10 @@
                 <i class="fab fa-telegram"></i> Telegram Deployment
             </a>
             
+            <a href="#" class="button button-direct" id="directBtn" target="_blank">
+                <i class="fas fa-external-link-alt"></i> Direct One
+            </a>
+            
             <a href="#" class="button button-whatsapp" id="whatsappBtn">
                 <i class="fab fa-whatsapp"></i> Go to WhatsApp Directly
             </a>
@@ -371,6 +383,7 @@
         const deploymentModal = document.getElementById('deploymentModal');
         const closeModal = document.getElementById('closeModal');
         const whatsappBtn = document.getElementById('whatsappBtn');
+        const directBtn = document.getElementById('directBtn');
         const panelBtn = document.getElementById('panelBtn');
         const ownerBtn = document.getElementById('ownerBtn');
         const subMenuBtn = document.getElementById('subMenuBtn');
@@ -406,8 +419,15 @@
             }
         });
         
+        // Direct One button - Opens the link directly in browser
+        directBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.open('https://sila-md-mini-bots-6042b565bf81.herokuapp.com/', '_blank');
+        });
+        
         // WhatsApp button in modal
-        whatsappBtn.addEventListener('click', function() {
+        whatsappBtn.addEventListener('click', function(e) {
+            e.preventDefault();
             const phoneNumber = '255775710774';
             const message = '10px freebot plz.';
             const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
@@ -433,4 +453,4 @@
         });
     </script>
 </body>
-                                  </html>
+    </html>
