@@ -223,6 +223,53 @@
             color: #4cc9f0;
         }
         
+        /* Audio Player Styles */
+        .audio-player {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px 15px;
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            border: 1px solid #4cc9f0;
+        }
+        
+        .audio-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .audio-btn {
+            background: none;
+            border: none;
+            color: #4cc9f0;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .audio-btn:hover {
+            background: rgba(76, 201, 240, 0.2);
+            transform: scale(1.1);
+        }
+        
+        .audio-title {
+            font-size: 0.8rem;
+            color: #b8b8b8;
+            max-width: 150px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
         @media (max-width: 600px) {
             h1 {
                 font-size: 2.2rem;
@@ -236,10 +283,34 @@
             .modal-content {
                 padding: 20px;
             }
+            
+            .audio-player {
+                bottom: 10px;
+                right: 10px;
+                left: 10px;
+                justify-content: center;
+            }
+            
+            .audio-title {
+                max-width: 100px;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Audio Player -->
+    <div class="audio-player" id="audioPlayer">
+        <div class="audio-title" id="audioTitle">Now Playing: DarkX Theme</div>
+        <div class="audio-controls">
+            <button class="audio-btn" id="playPauseBtn">
+                <i class="fas fa-pause"></i>
+            </button>
+            <button class="audio-btn" id="muteBtn">
+                <i class="fas fa-volume-up"></i>
+            </button>
+        </div>
+    </div>
+
     <div class="container">
         <header>
             <div class="logo">
@@ -376,8 +447,71 @@
             </div>
         </div>
     </div>
+
+    <!-- Audio Element (Hidden) -->
+    <audio id="backgroundMusic" loop>
+        <!-- LINK YAKO YA AUDIO - NIMEIBADILISHWA KUWA DIRECT DOWNLOAD -->
+        <source src="https://docs.google.com/uc?export=download&id=1s-wC0BNkGz9S8IQasHu4Twt5AVH7urqd" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
     
     <script>
+        // Audio Player Functionality
+        const backgroundMusic = document.getElementById('backgroundMusic');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const muteBtn = document.getElementById('muteBtn');
+        const audioTitle = document.getElementById('audioTitle');
+        const audioPlayer = document.getElementById('audioPlayer');
+
+        // Auto-play music when page loads (with user interaction requirement)
+        document.addEventListener('DOMContentLoaded', function() {
+            // Try to play audio automatically (may require user interaction in some browsers)
+            const playAudio = () => {
+                backgroundMusic.volume = 0.5; // Set volume to 50%
+                backgroundMusic.play().catch(error => {
+                    console.log('Auto-play prevented:', error);
+                    // Show play button if auto-play is blocked
+                    playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+                });
+            };
+            
+            // Try to play immediately
+            playAudio();
+            
+            // Also try on first user interaction
+            document.body.addEventListener('click', function firstClick() {
+                playAudio();
+                document.body.removeEventListener('click', firstClick);
+            });
+        });
+
+        // Play/Pause functionality
+        playPauseBtn.addEventListener('click', function() {
+            if (backgroundMusic.paused) {
+                backgroundMusic.play();
+                playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            } else {
+                backgroundMusic.pause();
+                playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+            }
+        });
+
+        // Mute/Unmute functionality
+        muteBtn.addEventListener('click', function() {
+            if (backgroundMusic.muted) {
+                backgroundMusic.muted = false;
+                muteBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+            } else {
+                backgroundMusic.muted = true;
+                muteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+            }
+        });
+
+        // Update play button when audio ends
+        backgroundMusic.addEventListener('ended', function() {
+            playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+        });
+
         // Get DOM elements
         const freeBotBtn = document.getElementById('freeBotBtn');
         const deploymentModal = document.getElementById('deploymentModal');
@@ -453,4 +587,4 @@
         });
     </script>
 </body>
-    </html>
+            </html>
