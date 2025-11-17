@@ -2,11 +2,11 @@
 
 ![Status Badge](https://img.shields.io/badge/STATUS-ONLINE-brightgreen?style=for-the-badge&logo=whatsapp)
 ![Version Badge](https://img.shields.io/badge/VERSION-v1.0-blue?style=for-the-badge&logo=git)
-![License Badge](https://img.shields.io/badge/LICENSE-MIT-yellow?style=for-the-badge)
+![License Badge](https://img.shields.io/badge/LICENSE-MIT-yellow?style=for-for-the-badge)
 
 ---
 
-![POPKID-MD Bot Image](https://files.catbox.moe/9tzte1.jpg)
+![DARKX-MD Bot Image](https://drive.google.com/file/d/1gnsg3ttx3M6KMyQV1_p3z9sqCkFg9hen/view?usp=drivesdk)
 
 ---
 
