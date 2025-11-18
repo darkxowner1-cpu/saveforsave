@@ -2,69 +2,73 @@
   "name": "DARKX-MD",
   "description": "A lightweight WhatsApp BOT by DarkX Official.",
   "repository": "https://github.com/darkxowner1-cpu/saveforsave",
-
+  "logo": "https://files.catbox.moe/kiy0hl.jpg",
+  "keywords": ["whatsapp", "bot", "nodejs", "darkx"],
   "env": {
     "SESSION_ID": {
-      "description": "WhatsApp Session ID",
+      "description": "Your WhatsApp session ID. Get this by scanning QR code when bot starts",
       "required": true
     },
-
-    "OWNER_NUMBER": {
-      "description": "Bot owner WhatsApp number",
-      "value": "255775710774"
-    },
-    "OWNER_NAME": {
-      "description": "Owner name",
-      "value": "DarkX Official"
-    },
-
     "PREFIX": {
       "description": "Bot command prefix",
-      "value": "."
+      "value": ".",
+      "required": false
     },
     "BOT_NAME": {
-      "description": "Bot display name",
-      "value": "DARKX-MD"
+      "description": "Your bot's display name",
+      "value": "DARKX-MD",
+      "required": false
+    },
+    "OWNER_NUMBER": {
+      "description": "Bot owner's WhatsApp number (with country code, without +)",
+      "value": "255775710774",
+      "required": false
+    },
+    "OWNER_NAME": {
+      "description": "Bot owner's name",
+      "value": "DarkX Official",
+      "required": false
     },
     "MODE": {
-      "description": "public | private | inbox | group",
-      "value": "public"
+      "description": "Bot mode: public | private | inbox | group",
+      "value": "public",
+      "required": false
     },
-
+    "AUTO_REPLY": {
+      "description": "Enable auto reply feature (true/false)",
+      "value": "true",
+      "required": false
+    },
     "AUTO_STATUS_SEEN": {
-      "description": "Auto view statuses",
-      "value": "true"
+      "description": "Auto view statuses (true/false)",
+      "value": "true",
+      "required": false
     },
     "AUTO_STATUS_REACT": {
-      "description": "Auto react to statuses",
-      "value": "true"
+      "description": "Auto react to statuses (true/false)",
+      "value": "true",
+      "required": false
     },
-    "AUTO_STATUS_REACT_EMOJI": {
-      "description": "Emoji used when auto-reacting to status",
-      "value": "❤️,💜,🩵,🤎,💚,💛"
-    },
-
-    "AUTO_REACT": {
-      "description": "Auto react to messages",
-      "value": "false"
-    },
-
-    "AUTO_REPLY": {
-      "description": "Enable auto text reply",
-      "value": "true"
-    },
-
     "ANTI_LINK": {
-      "description": "Anti-link protection",
-      "value": "true"
+      "description": "Enable anti-link protection (true/false)",
+      "value": "true",
+      "required": false
     },
     "ANTI_BAD": {
-      "description": "Bad word filter",
-      "value": "true"
+      "description": "Enable bad word filter (true/false)",
+      "value": "true",
+      "required": false
     }
   },
-
   "buildpacks": [
-    { "url": "heroku/nodejs" }
+    {
+      "url": "heroku/nodejs"
+    },
+    {
+      "url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest"
+    },
+    {
+      "url": "https://github.com/clhuang/heroku-buildpack-webp-binaries.git"
+    }
   ]
 }
